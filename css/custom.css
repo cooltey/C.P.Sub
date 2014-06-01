@@ -1,0 +1,11 @@
+body, h3{
+	font-family: 微軟正黑體;
+}
+
+.footer{
+	text-align: center;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
