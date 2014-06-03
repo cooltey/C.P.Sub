@@ -11,8 +11,12 @@
  include_once("config/settings.php");
  // include library file
  include_once("class/lib.php");
+ // include article file
+ include_once("class/article.php");
  
- $getLib = new Lib($cpsub['filter'], $cpsub['stripslashes']);
+ $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
+ $getArticle 	= new Article($config_article_file_path);
+ 
  
  // transfer data
  $getData = $_POST;
@@ -30,8 +34,8 @@
 	$getLib->checkFileStatus($config_article_file_path);
 
 	// set get values
-	$error_msg_array = array();
-	$success_msg_array = array();
+	$error_msg_array 			= array();
+	$success_msg_array 			= array();
 	$article_title 				= $getLib->setFilter($getData['article_title']);
 	$article_author 			= $getLib->setFilter($getData['article_author']);
 	$article_top 				= $getLib->setFilter($getData['article_top']);
@@ -55,7 +59,7 @@
 		array_push($error_msg_array, $error_msg);
 	}
 	
-	if($getLib->checkVal($article_top)){
+	if(!$getLib->checkVal($article_top)){
 		$article_top = "0";
 	}
 	
@@ -69,54 +73,28 @@
 			$error_msg = "上傳檔案錯誤，請檢查您的檔案！".$getTotalUploadFiles;
 			array_push($error_msg_array, $error_msg);
 		}else{
-			$article_files = implode(",", $uploadResult);
+			$article_files 		= implode(",", $uploadResult['file']);
+			$article_files_name = implode(",", $uploadResult['file_name']);
 		}
 	}
 	
 	// 進行資料庫存取
 	if(count($error_msg_array) == 0){
 		try{
-			// result array
-			$resultArray  = array();
-			
-			// read csv file
-			$csvIndex = 1;
-			if (($handle = fopen($config_article_file_path, "r")) !== FALSE) {
-				while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
-					$columnArray = array($csvIndex,
-										$data[0],
-										$data[1],
-										$data[2],
-										$data[3],
-										$data[4],
-										$data[5],
-										$data[6]);			
-					$csvIndex++;
-					
-					array_push($resultArray, $columnArray);
-				}
-				fclose($handle);
-			}
 			
 			// add new data
-			$columnArray = array($csvIndex,
+			$columnArray = array("",
 								$article_title,
 								$article_author,
 								$article_top,
 								$article_content,
 								$article_files,
+								$article_files_name,
 								$article_date,
-								$article_ip);
-			array_push($resultArray, $columnArray);
-			
-			// put data into csv
-			$fp = fopen($config_article_file_path, "w");
-
-			foreach ($resultArray as $fields) {
-				fputcsv($fp, $fields);
-			}
-
-			fclose($fp);
+								$article_ip,
+								0);
+								
+			$getArticle->addNewLine($columnArray);
 			
 			$success_msg = "新增文章成功！";
 			array_push($success_msg_array, $success_msg);

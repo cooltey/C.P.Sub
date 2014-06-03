@@ -113,6 +113,26 @@ class Lib{
 		}
 	}
 	
+	// success dialog
+	function showAlertMsg($get_string){
+		$returnVal = $get_string;
+		if($this->checkVal($returnVal)){
+			$returnVal = "<script> alert('{$get_string}'); </script>";
+		}
+		
+		return $returnVal;
+	}
+		
+	// success dialog
+	function getRedirect($get_string){
+		$returnVal = $get_string;
+		if($this->checkVal($returnVal)){
+			$returnVal = "<script>window.location.href='{$get_string}'</script>";
+		}
+		
+		return $returnVal;
+	}	
+	
 	// for menu toggle
 	function toggleMenu($page, $section){
 		if(preg_match("/^{$section}/", $page)){
@@ -162,8 +182,9 @@ class Lib{
 							try{
 								move_uploaded_file($file_tmp_name, $folder.$file_name);
 								
-								$returnVal['status'] 	= true;								
-								$returnVal['file'][$i]  = $file_name;
+								$returnVal['status'] 		= true;								
+								$returnVal['file'][$i]  	= $file_name;					
+								$returnVal['file_name'][$i] = $file_display_name;
 								
 							}catch(Exception $e){		
 							}
