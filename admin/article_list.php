@@ -17,6 +17,8 @@
  $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
  $getArticle 	= new Article($config_article_file_path);
  
+ // get article list					
+ $getListArray = $getArticle->getAllList("display", "id", "desc");
 ?>
 		<div class="panel panel-default">
 			<table class="table table-hover">
@@ -33,8 +35,6 @@
 			  </thead>
 			  <tbody>
 				<?php
-					// get article list					
-					$getListArray = $getArticle->getAllList("display", "date", "asc");
 					foreach($getListArray AS $getKey => $getVal){
 						$article_id 		= $getVal['id'];
 						$article_title 		= $getVal['title'];

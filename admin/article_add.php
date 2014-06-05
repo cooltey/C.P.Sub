@@ -94,7 +94,7 @@
 								$article_ip,
 								0);
 								
-			$getArticle->addNewLine($columnArray);
+			$getArticle->addNewArticle($columnArray);
 			
 			$success_msg = "新增文章成功！";
 			array_push($success_msg_array, $success_msg);

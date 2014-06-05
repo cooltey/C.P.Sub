@@ -40,6 +40,8 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/custom.css" rel="stylesheet" media="screen">
+	<!-- Jquery -->
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   </head>
   <body>
 	<div class="container">
@@ -61,7 +63,14 @@
 		  </div>
 		</nav>
 		<?php
-			include($include_path);
+			if($getLib->checkVal($include_path)){
+				include($include_path) ;
+			}else{
+				$error_msg 			= "找不到網頁";
+				$error_msg_array 	= array();
+				array_push($error_msg_array, $error_msg);
+				$getLib->showErrorMsg($error_msg_array);
+			}
 		?>
 	</div>
 		<div class="footer">

@@ -14,12 +14,124 @@
  // include article file
  include_once("class/article.php");
  
- $getData		= $_GET;
+ $getData		= $_POST;
+ $getFile 		= $_FILES;
  $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
  $getArticle 	= new Article($config_article_file_path);
  $getId			= $_GET['id'];
  
- // check id
+ // check the submit btn has been submitted
+ if($getLib->checkVal($getData['send'])){
+	$error_msg_array = array();
+ 
+    // check file status
+	$getLib->checkFileStatus($config_default_folder);
+	$getLib->checkFileStatus($config_article_file_path);
+
+	// set get values
+	$error_msg_array 			= array();
+	$success_msg_array 			= array();
+	$article_title 				= $getLib->setFilter($getData['article_title']);
+	$article_author 			= $getLib->setFilter($getData['article_author']);
+	$article_top 				= $getLib->setFilter($getData['article_top']);
+	$article_content 			= $getLib->setFilter($getData['article_content']);
+	$article_date				= date("Y-m-d H:i:s");
+	$article_ip					= $getLib->getIp();	
+	$article_files 				= array();
+	$article_files_name			= array();
+	$file_del_array				= $getData['article_file_del'];
+	$file_remain				= $getData['article_file_remain'];
+	$file_name_remain			= $getData['article_file_name_remain'];
+	
+	// check values
+	if(!filter_has_var(INPUT_POST, "article_title") || !$getLib->checkVal($article_title)){
+		$error_msg = "請輸入標題";
+		array_push($error_msg_array, $error_msg);
+	}
+	
+	if(!filter_has_var(INPUT_POST, "article_author") || !$getLib->checkVal($article_author)){
+		$error_msg = "請輸入發佈單位";
+		array_push($error_msg_array, $error_msg);
+	}
+	
+	if(!filter_has_var(INPUT_POST, "article_content") || !$getLib->checkVal($article_content)){
+		$error_msg = "請輸入內文";
+		array_push($error_msg_array, $error_msg);
+	}
+	
+	if(!$getLib->checkVal($article_top)){
+		$article_top = "0";
+	}
+	
+	// orgnize the upload column
+	if(!empty($file_remain)){
+		$count = 0;
+		foreach($file_remain AS $fileData){
+			// skip del file
+			if(@in_array($count, $file_del_array)){
+				// del file
+				@unlink($config_upload_folder.$fileData);
+			}else{
+				// push data
+				array_push($article_files, $fileData);
+				array_push($article_files_name, $file_name_remain[$count]);
+			}
+			$count++;
+		}
+	}
+	
+	// set upload
+	$uploadResult = $getLib->fileUpload($getFile, "article_file", $config_upload_folder);
+	
+	$getTotalUploadFiles = count($getFile['article_file']['name']);
+
+	if($getLib->checkVal($getFile['article_file']['name'][0])){
+		if($uploadResult['status'] != true){
+			$error_msg = "上傳檔案錯誤，請檢查您的檔案！".$getTotalUploadFiles;
+			array_push($error_msg_array, $error_msg);
+		}else{
+			// merge array
+			$new_article_files_array 			= array_merge($article_files, $uploadResult['file']);
+			$new_article_files_name_array 		= array_merge($article_files_name, $uploadResult['file_name']);
+			$article_files 						= implode(",", $new_article_files_array);
+			$article_files_name 				= implode(",", $new_article_files_name_array);
+		}
+	}else{
+		$article_files 						= implode(",", $article_files);
+		$article_files_name 				= implode(",", $article_files_name);
+	}
+	
+	
+	// 進行資料庫存取
+	if(count($error_msg_array) == 0){
+		try{
+			
+			// update new data
+			$columnArray = array($getId,
+								$article_title,
+								$article_author,
+								$article_top,
+								$article_content,
+								$article_files,
+								$article_files_name,
+								$article_date,
+								$article_ip,
+								0);
+								
+			$getArticle->editArticle($columnArray);
+			
+			$success_msg = "更新文章成功！";
+			array_push($success_msg_array, $success_msg);
+		
+		}catch(Exception $e){
+			$error_msg = "資料庫錯誤 <br />{$e}";
+			array_push($error_msg_array, $error_msg);
+		}
+	}
+	
+ }
+ 
+ // check id & show contents
  if(filter_has_var(INPUT_GET, "id")){
 	if(filter_var($getId, FILTER_VALIDATE_INT)){
 		$getId = intval($getLib->setFilter($getId));
@@ -54,11 +166,14 @@
 	echo $getLib->getRedirect($return_page);
  }
 ?>
+		<?php $getLib->showErrorMsg($error_msg_array);?>
+		<?php $getLib->showSuccessMsg($success_msg_array);?>
+		
 		<!--CK Editor -->
 		<script src="js/ckeditor/ckeditor.js"></script>
 	    <script src="js/ckeditor/adapters/jquery.js"></script>
 		<!--CK Editor -->
-		<form class="form-horizontal" role="form" action="manage.php?p=add" method="post">
+		<form class="form-horizontal" role="form" action="manage.php?p=article_edit&id=<?=$getId;?>" method="post" enctype="multipart/form-data">
 		  <div class="form-group">
 			<label for="article_title" class="col-lg-2 control-label">標題</label>
 			<div class="col-lg-10">
@@ -97,8 +212,15 @@
 							$count = 0;
 							foreach($article_files AS $fileData){
 							?>
-								<div class="list-group-item"><a href="#"><?=$article_files_name[$count];?></a><span class="glyphicon glyphicon-remove pull-right"></span></div>
-								<input type="hidden" value="<?=$fileData;?>" name="article_file_remain[]">
+								<div class="list-group-item">
+								    <a href="<?=$config_upload_folder.$fileData;?>" target="_blank"><?=$article_files_name[$count];?></a>
+									<input type="hidden" value="<?=$fileData;?>" name="article_file_remain[]">
+									<input type="hidden" value="<?=$article_files_name[$count];?>" name="article_file_name_remain[]">
+								    <label class="pull-right">刪除檔案
+										<input type="checkbox" value="<?=$count;?>" name="article_file_del[]">
+									</label>
+								</div>
+								
 							<?php
 								$count++;
 							}
@@ -117,7 +239,7 @@
 		  </div>
 		  <div class="form-group">
 			<div class="col-lg-offset-2 col-lg-10">
-			  <button type="submit" class="btn btn-default">發佈</button>
+			  <button type="submit" class="btn btn-default" name="send" value="send">更新</button>
 			</div>
 		  </div>
 		</form>

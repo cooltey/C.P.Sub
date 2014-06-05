@@ -105,12 +105,10 @@ class Article{
 		return $returnVal;	
 	}
 	
-	function addNewLine($newDataArray){
+	function addNewArticle($newDataArray){
 	
 		$returnVal = false;
-		try{
-			$dataArray = array();
-		
+		try{		
 			// update array
 			$resultArray  = $this->getAllList();
 			
@@ -128,6 +126,49 @@ class Article{
 			$fp = fopen($this->filePath, "w");
 
 			foreach ($resultArray as $fields) {
+				fputcsv($fp, $fields);
+			}
+
+			fclose($fp);
+			
+			$returnVal = true;
+		}catch(Exception $e){
+			
+		}
+		
+		return $returnVal;	
+	}
+	
+	function editArticle($newDataArray){
+	
+		$returnVal = false;
+		try{
+			$dataArray = array();
+		
+			// update array
+			$resultArray  = $this->getAllList();
+			
+			// update exist data
+			foreach($resultArray AS $existData){
+				if($existData[0] == $newDataArray[0]){
+					$existData[1] = $newDataArray[1];
+					$existData[2] = $newDataArray[2];
+					$existData[3] = $newDataArray[3];
+					$existData[4] = $newDataArray[4];
+					$existData[5] = $newDataArray[5];
+					$existData[6] = $newDataArray[6];
+					$existData[7] = $newDataArray[7];
+					$existData[8] = $newDataArray[8];
+					$existData[9] = $newDataArray[9];
+				}
+				
+				array_push($dataArray, $existData);
+			}
+			
+			// put data into csv
+			$fp = fopen($this->filePath, "w");
+
+			foreach ($dataArray as $fields) {
 				fputcsv($fp, $fields);
 			}
 
