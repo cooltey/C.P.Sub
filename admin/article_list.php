@@ -5,20 +5,21 @@
  * Lastest Update: 2013/10/15
  */
  
- // include configuration file
- include_once("config/config.php");
- // include setting file
- include_once("config/settings.php");
- // include library file
- include_once("class/lib.php");
- // include article file
- include_once("class/article.php");
- 
- $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
- $getArticle 	= new Article($config_article_file_path);
- 
+ // set Article
+ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $getLib);
+ $page    	= $_GET['page'];
  // get article list					
- $getListArray = $getArticle->getAllList("display", "id", "desc");
+ $getListArray  = $getArticle->getAllList("display", "id", "desc");
+ $getListSum    = count($getListArray);
+ // set pager 
+ $many	 		= $cpsub['display_num'];
+ $display 		= $cpsub['display_page_num'];
+ $total	 		= $getListSum;
+ $pagename		= "?p=article_list&";
+ $getPage 		= new Pager($page, $many, $display, $total, $pagename);
+ $pageStart  	= intval($getPage->startVar);
+ $pageMany  	= intval($getPage->manyVar);
+ 
 ?>
 		<div class="panel panel-default">
 			<table class="table table-hover">
@@ -35,34 +36,32 @@
 			  </thead>
 			  <tbody>
 				<?php
+					$count = 0;
 					foreach($getListArray AS $getKey => $getVal){
-						$article_id 		= $getVal['id'];
-						$article_title 		= $getVal['title'];
-						$article_author 	= $getVal['author'];
-						$article_counts 	= number_format($getVal['counts']);
-						$article_date 		= date("Y/m/d", strtotime($getVal['date']));
+						if($count >= $pageStart && $count < ($pageMany+$pageStart)){
+							$article_id 		= $getVal['id'];
+							$article_title 		= $getVal['title'];
+							$article_author 	= $getVal['author'];
+							$article_counts 	= number_format($getVal['counts']);
+							$article_date 		= date("Y/m/d", strtotime($getVal['date']));
 				?>
-					<tr>
-						<td><?=$getVal['id'];?></td>
-						<td><a href="article.php"><?=$article_title;?></a></td>
-						<td><?=$article_counts;?></td>
-						<td><?=$article_date ;?></td>
-						<td><?=$article_author;?></td>
-						<td><a href="?p=article_edit&id=<?=$article_id;?>"><span class="glyphicon glyphicon-pencil"></span></a></td>
-						<td><a href="?p=article_del&id=<?=$article_id;?>"><span class="glyphicon glyphicon-trash"></span></a></td>
-					</tr>
+						<tr>
+							<td><?=$getVal['id'];?></td>
+							<td><a href="article.php"><?=$article_title;?></a></td>
+							<td><?=$article_counts;?></td>
+							<td><?=$article_date ;?></td>
+							<td><?=$article_author;?></td>
+							<td><a href="?p=article_edit&id=<?=$article_id;?>"><span class="glyphicon glyphicon-pencil"></span></a></td>
+							<td><a href="?p=article_del&id=<?=$article_id;?>"><span class="glyphicon glyphicon-trash"></span></a></td>
+						</tr>
 				<?php
+						}
+						$count++;
 					}
 				?>
 			  </tbody>
 			</table>
 		</div>
-		<ul class="pagination pull-right">
-		  <li class="disabled"><a href="#">&laquo;</a></li>
-		  <li class="active"><a href="#">1</a></li>
-		  <li><a href="#">2</a></li>
-		  <li><a href="#">3</a></li>
-		  <li><a href="#">4</a></li>
-		  <li><a href="#">5</a></li>
-		  <li><a href="#">&raquo;</a></li>
-		</ul>
+		<?php
+			$getPage->getPageControler();
+		?>

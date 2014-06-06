@@ -5,105 +5,20 @@
  * Lastest Update: 2013/10/15
  */
  
- // include configuration file
- include_once("config/config.php");
- // include setting file
- include_once("config/settings.php");
- // include library file
- include_once("class/lib.php");
- // include article file
- include_once("class/article.php");
- 
- $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
- $getArticle 	= new Article($config_article_file_path);
+ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $getLib);
  
  
  // transfer data
  $getData = $_POST;
  $getFile = $_FILES;
+  
+ // set add function
+ $getResult = $getArticle->addNewArticle($getData, $getFile);
  
- $display_message = "";
- $execute_result  = null;
- 
- // check the submit btn has been submitted
- if($getLib->checkVal($getData['send'])){
-	$error_msg_array = array();
- 
-    // check file status
-	$getLib->checkFileStatus($config_default_folder);
-	$getLib->checkFileStatus($config_article_file_path);
-
-	// set get values
-	$error_msg_array 			= array();
-	$success_msg_array 			= array();
-	$article_title 				= $getLib->setFilter($getData['article_title']);
-	$article_author 			= $getLib->setFilter($getData['article_author']);
-	$article_top 				= $getLib->setFilter($getData['article_top']);
-	$article_content 			= $getLib->setFilter($getData['article_content']);
-	$article_date				= date("Y-m-d H:i:s");
-	$article_ip					= $getLib->getIp();
-	
-	// check values
-	if(!filter_has_var(INPUT_POST, "article_title") || !$getLib->checkVal($article_title)){
-		$error_msg = "請輸入標題";
-		array_push($error_msg_array, $error_msg);
-	}
-	
-	if(!filter_has_var(INPUT_POST, "article_author") || !$getLib->checkVal($article_author)){
-		$error_msg = "請輸入發佈單位";
-		array_push($error_msg_array, $error_msg);
-	}
-	
-	if(!filter_has_var(INPUT_POST, "article_content") || !$getLib->checkVal($article_content)){
-		$error_msg = "請輸入內文";
-		array_push($error_msg_array, $error_msg);
-	}
-	
-	if(!$getLib->checkVal($article_top)){
-		$article_top = "0";
-	}
-	
-	// set upload
-	$uploadResult = $getLib->fileUpload($getFile, "article_file", $config_upload_folder);
-	
-	$getTotalUploadFiles = count($getFile['article_file']['name']);
-
-	if($getLib->checkVal($getFile['article_file']['name'][0])){
-		if($uploadResult['status'] != true){
-			$error_msg = "上傳檔案錯誤，請檢查您的檔案！".$getTotalUploadFiles;
-			array_push($error_msg_array, $error_msg);
-		}else{
-			$article_files 		= implode(",", $uploadResult['file']);
-			$article_files_name = implode(",", $uploadResult['file_name']);
-		}
-	}
-	
-	// 進行資料庫存取
-	if(count($error_msg_array) == 0){
-		try{
-			
-			// add new data
-			$columnArray = array("",
-								$article_title,
-								$article_author,
-								$article_top,
-								$article_content,
-								$article_files,
-								$article_files_name,
-								$article_date,
-								$article_ip,
-								0);
-								
-			$getArticle->addNewArticle($columnArray);
-			
-			$success_msg = "新增文章成功！";
-			array_push($success_msg_array, $success_msg);
-		
-		}catch(Exception $e){
-			$error_msg = "資料庫錯誤 <br />{$e}";
-			array_push($error_msg_array, $error_msg);
-		}
-	}
+ if($getResult['status'] == true){	
+	$success_msg_array = $getResult['msg'];
+ }else{
+	$error_msg_array   = $getResult['msg'];
  }
 
 ?>
@@ -131,16 +46,22 @@
 			<div class="col-lg-offset-2 col-lg-10">
 			  <div class="checkbox">
 				<label>
-				  <input type="checkbox" name="article_top" value="1"> 置頂
+				  <input type="checkbox" name="article_top" value="1">置頂
 				</label>
 			  </div>
 			</div>
 		  </div>
-		   <div class="form-group">
+		  <div class="form-group">
 			<label for="article_file" class="col-lg-2 control-label">上傳附件</label>
 			<div class="col-lg-10">
-				<input type="file" name="article_file[]" id="article_file">
+				<input type="file" name="article_file[]" id="article_file" class="form-control" >
 				<p class="help-block cursor-pointer" id="add_more_file"><span class="glyphicon glyphicon-plus"></span>添加更多附件</p>
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label for="article_file" class="col-lg-2 control-label">發佈時間</label>
+			<div class="col-lg-10">
+				<input type="text" name="article_date" value="<?=date("Y-m-d H:i:s");?>" class="form-control auto_selectbar" > (年-月-日 時:分:秒) 
 			</div>
 		  </div>
 		  <div class="form-group">

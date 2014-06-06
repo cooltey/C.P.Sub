@@ -8,11 +8,17 @@
  // include configuration file
  include_once("config/config.php");
  // include setting file
- include_once("config/settings.php");
+ include_once("class/settings.php");
  // include library file
  include_once("class/lib.php");
+ // include article file
+ include_once("class/article.php");
+ // include page file
+ include_once("class/page.php");
  
- $getLib = new Lib($cpsub['filter'], $cpsub['stripslashes']);
+ $getSettings 	= new Settings($config_setting_file_path);
+ $cpsub			= $getSettings->getSettings();
+ $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
  
  // current page
  $website_current_page = "閱讀文章"; 

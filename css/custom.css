@@ -9,3 +9,9 @@ body, h3{
 .cursor-pointer{
     cursor: pointer;
 }
+
+.auto_selectbar{
+	width: auto;
+	margin-top: 0px;
+	margin-right: 5px;
+}

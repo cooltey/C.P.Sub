@@ -4,15 +4,6 @@
  * Author: Cooltey Feng
  * Lastest Update: 2013/10/15
  */
- 
- // include configuration file
- include_once("config/config.php");
- // include setting file
- include_once("config/settings.php");
- // include library file
- include_once("class/lib.php");
- 
- $getLib = new Lib($cpsub['filter'], $cpsub['stripslashes']);
 ?>
 	<div class="jumbotron">
 	  <div class="container">
