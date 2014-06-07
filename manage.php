@@ -15,10 +15,16 @@
  include_once("class/article.php");
  // include page file
  include_once("class/page.php");
+ // include auth file
+ include_once("class/auth.php");
+ 
+ session_start();
  
  $getSettings 	= new Settings($config_setting_file_path);
  $cpsub			= $getSettings->getSettings();
  $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
+ $getAuth 		= new Auth($config_account_data, $getLib);
+ 
  
  // check file status
  $getLib->checkFileStatus($config_default_folder);
@@ -30,6 +36,9 @@
  if(!$getLib->checkVal($p)){
 	$p = "about";
  }
+  
+ // check auth
+ $getAuth->checkAuth($_COOKIE, $_SESSION, $p);
  
  // get page folder
  $include_path = $getLib->checkAdminPath($p);

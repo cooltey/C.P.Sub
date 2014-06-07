@@ -391,4 +391,51 @@ class Article{
 		
 		return $returnVal;	
 	}
+	
+	function delArticle($getId){	
+		$returnVal = array("status" => false, "msg" => array());
+		try{
+			 $msg_array = array();
+			 
+			 // check id & show contents
+			 if(filter_has_var(INPUT_GET, "id")){
+				if(filter_var($getId, FILTER_VALIDATE_INT)){
+					$getId = intval($this->getLib->setFilter($getId));
+					
+					// start updating					
+					$dataArray = array();
+	
+					// update array
+					$resultArray  = $this->getAllList();
+					
+					// update exist data
+					foreach($resultArray AS $existData){
+						if($existData[0] != $getId){
+							array_push($dataArray, $existData);
+						}						
+					}
+					
+					// put data into csv
+					$fp = fopen($this->filePath, "w");
+
+					foreach ($dataArray as $fields) {
+						fputcsv($fp, $fields);
+					}
+
+					fclose($fp);					
+					
+					$success_msg = "文章刪除成功！";
+					array_push($msg_array, $success_msg);
+				
+					// set status
+					$return_status = true;
+				}
+			 }
+		}catch(Excepiton $e){
+		}	
+		
+		$returnVal = array("status" => $return_status, "msg" => $msg_array);
+		
+		return $returnVal;	
+	}
 }

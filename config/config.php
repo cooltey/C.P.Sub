@@ -6,28 +6,25 @@
  */
 
  // Global Values
- // 管理員 使用者名稱
- $admin_user_name = "admin";
- // 管理員 使用者密碼
- $admin_user_password = "admin";
- // 管理員 暱稱
- $admin_user_nickname = "管理員";
- 
- // 附屬使用者
  // 以陣列形式呈現
- $user_name 	= array();
- $user_password = array();
- $user_nickname = array();
+ $config_account_data = array();
  
- // 若需增加數量，請在中括號內新增數字即可。
- // 例如：$user_name[1] = "user1"; $user_password[1] = "passwd"; $user_nickname[1] = "姓名"
- $user_name[0] 		= "user1";
- $user_password[0] 	= "passwd";
- $user_nickname[0] 	= "姓名1";
+ $add_user	= array("username" => "admin", // 帳號
+					"password" => "admin", // 密碼
+					"nickname" => "管理員" // 管理員
+					); 
+ array_push($config_account_data, $add_user);
  
- $user_name[1] 		= "user2";
- $user_password[1] 	= "passwd";
- $user_nickname[1] 	= "姓名2";
+ // 若需增加數量，請在陣列中新增即可
+ // 新增完需利用 array_push 加入陣列
+ /*
+ // 範例
+ $add_user	= array("username" => "user1", // 帳號
+					"password" => "user1", // 密碼
+					"nickname" => "使用者1" // 管理員
+					); 
+ array_push($config_account_data, $add_user);
+ */
  
  
  // 預設檔案路徑

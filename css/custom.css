@@ -15,3 +15,10 @@ body, h3{
 	margin-top: 0px;
 	margin-right: 5px;
 }
+
+.login{
+	width: 400px;
+	margin: 0 auto;
+	margin-bottom: 40px;
+	
+}
