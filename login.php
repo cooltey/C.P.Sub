@@ -13,6 +13,8 @@
  include_once("class/lib.php");
  // include auth file
  include_once("class/auth.php");
+ // include template file
+ include_once("class/template.php");
  
  session_start();
  
@@ -21,6 +23,8 @@
  $cpsub			= $getSettings->getSettings();
  $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']); 
  $getAuth 		= new Auth($config_account_data, $getLib);
+ $getTmp 		= new Template();
+ 
  // current page
  $website_current_page = "登入"; 
  
@@ -45,12 +49,7 @@
 <!DOCTYPE html>
 <html lang="zh-tw">
   <head>
-    <title><?=$website_title;?></title>
-	<meta charset="utf-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/custom.css" rel="stylesheet" media="screen">
+	<?=$getTmp->setHeader($website_title);?>
   </head>
   <body>
 	<div class="container">
@@ -86,10 +85,6 @@
 			</div>
 		</div>
 	</div>
-		<div class="footer">
-			C.P.Sub 公告系統 V5.0 Powered by <a href="http://www.cooltey.org" target="_blank">Cooltey</a>
-		</div>
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>	
+	<?=$getTmp->setFooter();?>
   </body>
 </html>

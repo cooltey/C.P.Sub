@@ -47,7 +47,7 @@
 				?>
 						<tr>
 							<td><?=$getVal['id'];?></td>
-							<td><a href="article.php"><?=$article_title;?></a></td>
+							<td><a href="article.php?id=<?=$getVal['id'];?>"><?=$article_title;?></a></td>
 							<td><?=$article_counts;?></td>
 							<td><?=$article_date ;?></td>
 							<td><?=$article_author;?></td>

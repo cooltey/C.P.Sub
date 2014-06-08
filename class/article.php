@@ -125,6 +125,49 @@ class Article{
 		return $returnVal;	
 	}
 	
+	function addViewCounts($getId){
+		$returnVal = array("status" => false);		
+		
+		try{
+			// check id & show contents
+			 if(filter_has_var(INPUT_GET, "id")){
+				if(filter_var($getId, FILTER_VALIDATE_INT)){
+					$getId = intval($this->getLib->setFilter($getId));
+					// start updating					
+					$dataArray = array();
+
+					// update array
+					$resultArray  = $this->getAllList();
+					
+					// update exist data
+					foreach($resultArray AS $existData){
+						if($existData[0] == $getId){
+							$existData[9] = intval($existData[9]) + 1;
+						}
+						
+						array_push($dataArray, $existData);
+					}
+					
+					// put data into csv
+					$fp = fopen($this->filePath, "w");
+
+					foreach ($dataArray as $fields) {
+						fputcsv($fp, $fields);
+					}
+
+					fclose($fp);			
+					
+					$return_status = true;
+				}
+			}
+		}catch(Excepiton $e){
+		}	
+		
+		$returnVal = array("status" => $return_status);
+		
+		return $returnVal;				
+	}
+	
 	function addNewArticle($getData, $getFile){	
 	
 		$returnVal = array("status" => false, "msg" => array());
