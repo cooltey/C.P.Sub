@@ -39,15 +39,20 @@
 					$count = 0;
 					foreach($getListArray AS $getKey => $getVal){
 						if($count >= $pageStart && $count < ($pageMany+$pageStart)){
-							$article_id 		= $getVal['id'];
-							$article_title 		= $getVal['title'];
-							$article_author 	= $getVal['author'];
-							$article_counts 	= number_format($getVal['counts']);
-							$article_date 		= date("Y/m/d", strtotime($getVal['date']));
+							$article_id 		= $getLib->setFilter($getVal['id']);
+							$article_title 		= $getLib->setFilter($getVal['title']);
+							$article_author 	= $getLib->setFilter($getVal['author']);
+							$article_counts 	= number_format($getLib->setFilter($getVal['counts']));
+							$article_date 		= date("Y/m/d", strtotime($getLib->setFilter($getVal['date'])));
+							if($getVal['top'] == "1"){
+								$article_top = "<span class=\"label label-default margin_box\">置頂</span>";
+							}else{
+								$article_top = "";
+							}
 				?>
 						<tr>
 							<td><?=$getVal['id'];?></td>
-							<td><a href="article.php?id=<?=$getVal['id'];?>"><?=$article_title;?></a></td>
+							<td><?=$article_top;?><a href="article.php?id=<?=$getVal['id'];?>"><?=$article_title;?></a></td>
 							<td><?=$article_counts;?></td>
 							<td><?=$article_date ;?></td>
 							<td><?=$article_author;?></td>

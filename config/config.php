@@ -4,7 +4,7 @@
  * Author: Cooltey Feng
  * Lastest Update: 2013/10/15
  */
-
+ 
  // Global Values
  // 以陣列形式呈現
  $config_account_data = array();
@@ -17,14 +17,14 @@
  
  // 若需增加數量，請在陣列中新增即可
  // 新增完需利用 array_push 加入陣列
- /*
+ 
  // 範例
  $add_user	= array("username" => "user1", // 帳號
 					"password" => "user1", // 密碼
 					"nickname" => "使用者1" // 管理員
 					); 
  array_push($config_account_data, $add_user);
- */
+ 
  
  
  // 預設檔案路徑
@@ -38,3 +38,9 @@
   
  // 預設上傳資料夾路徑
  $config_upload_folder = "./upload/";
+ 
+ // 關於作者
+ $config_about_author = "http://www.cooltey.org/cpsub/json/about_json.php";
+ 
+ $config_current_version = "v5.0";
+ $config_current_update  = "2014/6/9";

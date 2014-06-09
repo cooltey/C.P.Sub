@@ -21,23 +21,23 @@
  $getSettings 	= new Settings($config_setting_file_path);
  $cpsub			= $getSettings->getSettings();
  $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
- $getTmp 		= new Template();
+ $getTmp 		= new Template($config_current_version);
  $getId			= $_GET['id'];
  // set Article
  $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $getLib);
  // add view counts
- $getArticleResult = $getArticle->addViewCounts($getId);
+ $getArticle->addViewCounts($getId);
  // get single article
  $getArticleResult = $getArticle->getArticle($getId);
  
  if($getArticleResult['status'] == true){ 
 	$getArticleData		= $getArticleResult['data'];
 	// get colum values
-	$article_title 		= $getArticleData['title'];
-	$article_author 	= $getArticleData['author'];
-	$article_date 		= $getArticleData['date'];
-	$article_content 	= $getArticleData['content'];
-	$article_counts 	= $getArticleData['counts'];
+	$article_title 		= $getLib->setFilter($getArticleData['title']);
+	$article_author 	= $getLib->setFilter($getArticleData['author']);
+	$article_date 		= $getLib->setFilter($getArticleData['date']);
+	$article_content 	= $getLib->setFilter($getArticleData['content']);
+	$article_counts 	= $getLib->setFilter($getArticleData['counts']);
 	$article_files 		= explode(",", $getArticleData['files']);
 	$article_files_name	= explode(",", $getArticleData['files_name']);
 	
@@ -91,9 +91,9 @@
 					foreach($article_files AS $fileData){
 				?>
 						<li class="list-group-item">
-							<a href="<?=$config_upload_folder.$fileData;?>" target="_blank">
+							<a href="<?=$config_upload_folder.$getLib->setFilter($fileData);?>" target="_blank">
 							<span class="glyphicon glyphicon-cloud-download pull-left download_icon"></span>
-							<?=$article_files_name[$count];?>
+							<?=$getLib->setFilter($article_files_name[$count]);?>
 							</a>
 						</li>
 				<?php

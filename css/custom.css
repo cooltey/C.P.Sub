@@ -1,4 +1,4 @@
-body, h3{
+body, h3, a, small, h1{
 	font-family: 微軟正黑體;
 }
 
@@ -25,4 +25,13 @@ body, h3{
 
 .download_icon{
 	margin-right: 5px;
+}
+
+.margin_box{
+	margin: 5px;
+	margin-left: 0px;
+}
+
+.small_font{
+	font-size: 14px;
 }

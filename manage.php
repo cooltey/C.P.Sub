@@ -26,7 +26,7 @@
  $cpsub			= $getSettings->getSettings();
  $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
  $getAuth 		= new Auth($config_account_data, $getLib);
- $getTmp 		= new Template();
+ $getTmp 		= new Template($config_current_version);
  
  
  // check file status
@@ -73,7 +73,7 @@
 			  <li <?=$getLib->toggleMenu($p, "article_list");?>><a href="?p=article_list">公告列表</a></li>
 			  <li <?=$getLib->toggleMenu($p, "system_settings");?>><a href="?p=system_settings">系統管理</a></li>
 			  <li <?=$getLib->toggleMenu($p, "about");?>><a href="?p=about">程式資訊</a></li>
-			  <li <?=$getLib->toggleMenu($p, "logout");?>><a href="?p=logout">登出並回到首頁</a></li>
+			  <li <?=$getLib->toggleMenu($p, "logout");?>><a href="?p=logout">登出</a></li>
 			</ul>
 		  </div>
 		</nav>

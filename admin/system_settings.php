@@ -26,11 +26,11 @@
  
  
  // get setting data
- $system_title 				= $cpsub['title'];
- $system_filter 			= $cpsub['filter'];
- $system_stripslashes 		= $cpsub['stripslashes'];
- $system_display_num 		= $cpsub['display_num'];
- $system_display_page_num 	= $cpsub['display_page_num'];
+ $system_title 				= $getLib->setFilter($cpsub['title']);
+ $system_filter 			= $getLib->setFilter($cpsub['filter']);
+ $system_stripslashes 		= $getLib->setFilter($cpsub['stripslashes']);
+ $system_display_num 		= $getLib->setFilter($cpsub['display_num']);
+ $system_display_page_num 	= $getLib->setFilter($cpsub['display_page_num']);
 ?>
 		<?php $getLib->showErrorMsg($error_msg_array);?>
 		<?php $getLib->showSuccessMsg($success_msg_array);?>
@@ -45,7 +45,7 @@
 		  <div class="form-group">
 			<label for="system_filter" class="col-lg-2 control-label">是否過濾 HTML 語法？</label>
 			<div class="col-lg-10">
-			  	<select class="form-control" name="system_filter">
+			  	<select class="form-control" name="system_stripslashes">
 				<?php
 					foreach($selector_array AS $oKey => $oVal){
 						$selected = "";

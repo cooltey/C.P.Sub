@@ -7,7 +7,10 @@
  
 class Template{
 	
-	function Template(){
+	var $version;
+	
+	function Template($current_version){
+		$this->version = $current_version;
 	}
 	
 	function setHeader($title){
@@ -28,7 +31,7 @@ class Template{
 	function setFooter(){
 		?>
 			<div class="footer">
-				C.P.Sub 公告系統 V5.0 Powered by <a href="http://www.cooltey.org" target="_blank">Cooltey</a>
+				C.P.Sub 公告系統 <?=$this->version;?> Powered by <a href="http://www.cooltey.org" target="_blank">Cooltey</a>
 			</div>
 		<?php
 	}

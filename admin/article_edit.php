@@ -25,10 +25,10 @@
  if($getArticleResult['status'] == true){ 
 	$getArticleData		= $getArticleResult['data'];
 	// get colum values
-	$article_title 		= $getArticleData['title'];
-	$article_author 	= $getArticleData['author'];
-	$article_date 		= $getArticleData['date'];
-	$article_content 	= $getArticleData['content'];
+	$article_title 		= $getLib->setFilter($getArticleData['title']);
+	$article_author 	= $$getLib->setFilter(getArticleData['author']);
+	$article_date 		= $getLib->setFilter($getArticleData['date']);
+	$article_content 	= $getLib->setFilter($getArticleData['content']);
 	$article_files 		= explode(",", $getArticleData['files']);
 	$article_files_name	= explode(",", $getArticleData['files_name']);
 	
@@ -92,9 +92,9 @@
 							foreach($article_files AS $fileData){
 							?>
 								<div class="list-group-item">
-								    <a href="<?=$config_upload_folder.$fileData;?>" target="_blank"><?=$article_files_name[$count];?></a>
-									<input type="hidden" value="<?=$fileData;?>" name="article_file_remain[]">
-									<input type="hidden" value="<?=$article_files_name[$count];?>" name="article_file_name_remain[]">
+								    <a href="<?=$config_upload_folder.$getLib->setFilter($fileData);?>" target="_blank"><?=$getLib->setFilter($article_files_name[$count]);?></a>
+									<input type="hidden" value="<?=$getLib->setFilter($fileData);?>" name="article_file_remain[]">
+									<input type="hidden" value="<?=$getLib->setFilter($article_files_name[$count]);?>" name="article_file_name_remain[]">
 								    <label class="pull-right">刪除檔案
 										<input type="checkbox" value="<?=$count;?>" name="article_file_del[]">
 									</label>

@@ -17,62 +17,83 @@ class Article{
 		$this->getLib		= $getLib;
 	}
 	
-	function getAllList($mode = null, $ordercolumn = null, $orderby = null){
+	function getAllList($mode = null, $ordercolumn = null, $orderby = null, $keywords = null){
 	
 		$returnVal = array();
+		
+		// set two array for display mode
+		$topArray 		= array();
+		$normalArray 	= array();
 		
 		// read csv file
 		if (($handle = fopen($this->filePath, "r")) !== FALSE) {
 			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+				// set initial array
+				$setList = array();
 				if($mode == "display"){
-					$setList = array("id" 			=> $data[0],
-									 "title" 		=> $data[1],
-									 "author" 		=> $data[2],
-									 "top" 			=> $data[3],
-									 "content" 		=> $data[4],
-									 "files" 		=> $data[5],
-									 "files_name" 	=> $data[6],
-									 "date" 		=> $data[7],
-									 "ip" 			=> $data[8],
-									 "counts"		=> $data[9]);
-					
-					// set column
-					if($ordercolumn == null){
-						$setKey 	= $setList['id'];
-						// check key
-						if(array_key_exists($setKey, $returnVal)){
-							$setKey = $setKey."_".date("YmdHisu");
+					// set search
+					if($this->getLib->checkVal($keywords)){
+						if(preg_match("/".$keywords."/", $data[1]) || 
+							preg_match("/".$keywords."/", $data[2]) || 
+							preg_match("/".$keywords."/", $data[4]) || 
+							preg_match("/".$keywords."/", $data[6])){ 
+							$setList = array("id" 			=> $data[0],
+											 "title" 		=> $data[1],
+											 "author" 		=> $data[2],
+											 "top" 			=> $data[3],
+											 "content" 		=> $data[4],
+											 "files" 		=> $data[5],
+											 "files_name" 	=> $data[6],
+											 "date" 		=> $data[7],
+											 "ip" 			=> $data[8],
+											 "counts"		=> $data[9]);
+										
 						}
-						// re-assign
-						$returnVal[$setKey] = $setList;
 					}else{
-						try{
-							$setKey 	= $setList[$ordercolumn];
-							// check key
-							if(array_key_exists($setKey, $returnVal)){
-								$setKey = $setKey."_".date("YmdHisu");
-							}
-							// re-assign
-							$returnVal[$setKey] = $setList;
-						}catch(Exception $e){
+						$setList = array("id" 			=> $data[0],
+										 "title" 		=> $data[1],
+										 "author" 		=> $data[2],
+										 "top" 			=> $data[3],
+										 "content" 		=> $data[4],
+										 "files" 		=> $data[5],
+										 "files_name" 	=> $data[6],
+										 "date" 		=> $data[7],
+										 "ip" 			=> $data[8],
+										 "counts"		=> $data[9]);
+					}
+					
+					
+					if(!empty($setList)){					
+						// set column
+						if($ordercolumn == null){
 							$setKey 	= $setList['id'];
 							// check key
-							if(array_key_exists($setKey, $returnVal)){
+							if(array_key_exists($setKey, $topArray) || array_key_exists($setKey, $normalArray)){
 								$setKey = $setKey."_".date("YmdHisu");
 							}
-							// re-assign
-							$returnVal[$setKey] = $setList;
-						
+						}else{
+							try{
+								$setKey 	= $setList[$ordercolumn];
+								// check key
+								if(array_key_exists($setKey, $topArray) || array_key_exists($setKey, $normalArray)){
+									$setKey = $setKey."_".date("YmdHisu");
+								}
+							}catch(Exception $e){
+								$setKey 	= $setList['id'];
+								// check key
+								if(array_key_exists($setKey, $topArray) || array_key_exists($setKey, $normalArray)){
+									$setKey = $setKey."_".date("YmdHisu");
+								}							
+							}
 						}
+												
+						if($data[3] == "1"){
+							$topArray[$setKey] = $setList;
+						}else{
+							$normalArray[$setKey] = $setList;						
+						}						
+						
 					}
-					
-					// set order
-					if($orderby == null || $orderby == "asc"){
-						ksort($returnVal);
-					}else{
-						krsort($returnVal);					
-					}
-					
 					
 				}else{				 
 					$setList = array($data[0],
@@ -89,6 +110,22 @@ class Article{
 				}
 			}
 			fclose($handle);
+			
+			// sort
+			if($mode == "display"){	
+			
+				// set order
+				if($orderby == null || $orderby == "asc"){				
+					ksort($topArray);
+					ksort($normalArray);
+				}else{			
+					krsort($topArray);
+					krsort($normalArray);		
+				}
+								
+				// merge array
+				$returnVal = $topArray + $normalArray;
+			}
 		}
 		
 		return $returnVal;	
@@ -99,7 +136,6 @@ class Article{
 		$returnVal = array("status" => false, "data" => array());		
 		
 		try{
-					
 			 // check id & show contents
 			 if(filter_has_var(INPUT_GET, "id")){
 				if(filter_var($getId, FILTER_VALIDATE_INT)){
@@ -107,7 +143,6 @@ class Article{
 					
 					// get article data
 					$getList = $this->getAllList("display");
-					
 					// get single article
 					$getArticleData = $getList[$getId];
 					
@@ -214,7 +249,7 @@ class Article{
 
 				if($this->getLib->checkVal($getFile['article_file']['name'][0])){
 					if($uploadResult['status'] != true){
-						$error_msg = "上傳檔案錯誤，請檢查您的檔案！".$getTotalUploadFiles;
+						$error_msg = "上傳檔案錯誤，請檢查您的檔案！";
 						array_push($msg_array, $error_msg);
 					}else{
 						$article_files 		= implode(",", $uploadResult['file']);
@@ -350,7 +385,7 @@ class Article{
 
 				if($this->getLib->checkVal($getFile['article_file']['name'][0])){
 					if($uploadResult['status'] != true){
-						$error_msg = "上傳檔案錯誤，請檢查您的檔案！".$getTotalUploadFiles;
+						$error_msg = "上傳檔案錯誤，請檢查您的檔案！";
 						array_push($msg_array, $error_msg);
 					}else{
 						// merge array

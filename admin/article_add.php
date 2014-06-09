@@ -17,6 +17,7 @@
  
  if($getResult['status'] == true){	
 	$success_msg_array = $getResult['msg'];
+	unset($getData);
  }else{
 	$error_msg_array   = $getResult['msg'];
  }
@@ -30,23 +31,28 @@
 	    <script src="js/ckeditor/adapters/jquery.js"></script>
 		<!--CK Editor -->
 		<form class="form-horizontal" role="form" action="manage.php?p=article_add" method="post" enctype="multipart/form-data">
-		  <div class="form-group">
+		 <div class="form-group">
 			<label for="article_title" class="col-lg-2 control-label">標題</label>
 			<div class="col-lg-10">
-			  	<input type="text" class="form-control" id="article_title" name="article_title" placeholder="標題">
+			  	<input type="text" class="form-control" id="article_title" name="article_title" placeholder="標題" value="<?=$getLib->setFilter($getData['article_title']);?>">
 			</div>
 		  </div>
 		  <div class="form-group">
 			<label for="article_author" class="col-lg-2 control-label">發佈單位</label>
 			<div class="col-lg-10">
-			  	<input type="text" class="form-control" id="article_author" name="article_author" placeholder="發佈單位">
+			  	<input type="text" class="form-control" id="article_author" name="article_author" placeholder="發佈單位" value="<?=$getLib->setFilter($getData['article_author']);?>">
 			</div>
 		  </div>
 		  <div class="form-group">
 			<div class="col-lg-offset-2 col-lg-10">
 			  <div class="checkbox">
 				<label>
-				  <input type="checkbox" name="article_top" value="1">置頂
+				  <?php
+					if($getData['article_top'] == "1"){
+						$checked = "checked";
+					}
+				  ?>
+				  <input type="checkbox" name="article_top" value="1" <?=$checked;?>> 置頂
 				</label>
 			  </div>
 			</div>
@@ -67,7 +73,7 @@
 		  <div class="form-group">
 			<label for="article_author" class="col-lg-2 control-label">文章內容</label>
 			<div class="col-lg-10">
-			  	<textarea name="article_content" class="ckeditor"></textarea>
+			  	<textarea name="article_content" class="ckeditor"><?=$getLib->setFilter($getData['article_content']);?></textarea>
 			</div>
 		  </div>
 		  <div class="form-group">

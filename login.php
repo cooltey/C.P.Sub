@@ -23,7 +23,7 @@
  $cpsub			= $getSettings->getSettings();
  $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']); 
  $getAuth 		= new Auth($config_account_data, $getLib);
- $getTmp 		= new Template();
+ $getTmp 		= new Template($config_current_version);
  
  // current page
  $website_current_page = "登入"; 

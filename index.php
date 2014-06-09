@@ -18,23 +18,32 @@
  // include template file
  include_once("class/template.php");
  
+ $getData		= $_GET;
  $getSettings 	= new Settings($config_setting_file_path);
  $cpsub			= $getSettings->getSettings();
  $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
- $getTmp 		= new Template();
+ $getTmp 		= new Template($config_current_version);
  
+ // set keyword
+ if($getLib->checkVal($getData['keyword'])){
+	$getKeyword 	= $getLib->setFilter($getData['keyword']);
+	$getKeywordLink = "?keyword=".$getKeyword."&";
+ }else{
+	$getKeywordLink = "?";
+ }
  
  // set Article
  $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $getLib);
+ 
  $page    	= $_GET['page'];
  // get article list					
- $getListArray  = $getArticle->getAllList("display", "id", "desc");
+ $getListArray  = $getArticle->getAllList("display", "id", "desc", $getKeyword);
  $getListSum    = count($getListArray);
  // set pager 
  $many	 		= $cpsub['display_num'];
  $display 		= $cpsub['display_page_num'];
  $total	 		= $getListSum;
- $pagename		= "?p=article_list&";
+ $pagename		= "index.php".$getKeywordLink;
  $getPage 		= new Pager($page, $many, $display, $total, $pagename);
  $pageStart  	= intval($getPage->startVar);
  $pageMany  	= intval($getPage->manyVar);
@@ -58,9 +67,9 @@
 		</div>
 		<div class="navbar">
 			<p class="navbar-text navbar-right"><a href="login.php">管理</a></p>
-			<form class="navbar-form navbar-right" role="search">
+			<form class="navbar-form navbar-right" role="search" action="index.php" method="get">
 			  <div class="form-group">
-				<input type="text" class="form-control" placeholder="輸入關鍵字">
+				<input type="text" class="form-control" placeholder="輸入關鍵字" value="<?=$getKeyword;?>" name="keyword">
 			  </div>
 			  <button type="submit" class="btn btn-default">搜尋</button>
 			</form>
@@ -81,15 +90,21 @@
 					$count = 0;
 					foreach($getListArray AS $getKey => $getVal){
 						if($count >= $pageStart && $count < ($pageMany+$pageStart)){
-							$article_id 		= $getVal['id'];
-							$article_title 		= $getVal['title'];
-							$article_author 	= $getVal['author'];
-							$article_counts 	= number_format($getVal['counts']);
-							$article_date 		= date("Y/m/d", strtotime($getVal['date']));
+							$article_id 		= $getLib->setFilter($getVal['id']);
+							$article_title 		= $getLib->setFilter($getVal['title']);
+							$article_author 	= $getLib->setFilter($getVal['author']);
+							$article_counts 	= number_format($getLib->setFilter($getVal['counts']));
+							$article_date 		= date("Y/m/d", strtotime($getLib->setFilter($getVal['date'])));
+							if($getVal['top'] == "1"){
+								$article_top = "<span class=\"label label-default margin_box\">置頂</span>";
+							}else{
+								$article_top = "";
+							}
+							
 				?>
 						<tr>
 							<td><?=$getVal['id'];?></td>
-							<td><a href="article.php?id=<?=$getVal['id'];?>"><?=$article_title;?></a></td>
+							<td><?=$article_top;?><a href="article.php?id=<?=$getVal['id'];?>"><?=$article_title;?></a></td>
 							<td><?=$article_counts;?></td>
 							<td><?=$article_date ;?></td>
 							<td><?=$article_author;?></td>

@@ -8,24 +8,24 @@
 class Lib{
 	
 	// 過濾文字設定
-	var $set_filter = "0";
+	var $set_filter = 0;
 	// 去除反斜線
-	var $set_stripslashes = "1";
+	var $set_stripslashes = 1;
 	
 	function Lib($get_filter, $get_stripslahes){
-		$this->filter = $filter;
-		$this->stripslahes = $get_stripslashes;
+		$this->set_filter = $get_filter;
+		$this->set_stripslashes = $get_stripslahes;
 	}
 	
 	// 簡易文字過濾
 	function setFilter($get_string){
 		$returnVal = $get_string;
 		
-		if($this->set_filter == "1"){
+		if($this->set_filter == 1){
 			$returnVal = strip_tags($get_string);
 		}
 		
-		if($this->set_stripslashes  == "1"){
+		if($this->set_stripslashes  == 1){
 			$returnVal = stripslashes($returnVal);
 		}
 		
