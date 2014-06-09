@@ -1,7 +1,7 @@
 <?php
  /**
  *  Project: Egg to Go
- *  Last Modified Date: 2013/10/23
+ *  Last Modified Date: 2014/6/9
  *  Developer: Cooltey Feng
  *  File: class/lib.php
  *  Description: Library for control basic function

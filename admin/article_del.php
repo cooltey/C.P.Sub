@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2013/10/15
+ * Lastest Update: 2014/6/9
  */
   
  $getData		= $_POST;
