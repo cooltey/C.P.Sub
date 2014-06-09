@@ -47,11 +47,51 @@ PHP 公告系統，用 CSV 格式建構出來的小型 PHP 程式。
 
 =======
 
+This is a PHP bulletin project that made with CSV file system (which is not using SQL as the database)
+
+If you have any question or suggestion about this project, please contact with me by using E-mail, Facebook message, or Twitter.
+
+<h4>Installation</h4>
+
+<h3>1. Server Configuration</h3>
+<ul>
+  <li>Environment：PHP 5.3 or higher</li>
+  <li>PHP.ini config：
+    <ul>
+      <ol>short_open_tag = on;</ol>
+      <ol>file_uploads = on;</ol>
+      <ol>allow_url_fopen = on;</ol>
+    </ul>
+  </li>
+</ul>
+<h3>2. Upload the whole "cpsub" folder to your server</h3>
+<h3>3. Update the folder/files's permissions to 777</h3>
+<ul> 
+ <li>cpsub/upload/</li>
+ <li>cpsub/db/article.txt</li>
+ <li>cpsub/db/settings.txt</li>
+</ul>
+<h3>4. Update the user name and user password</h3>
+<ul>
+ <li>Open cpsub/config/config.php</li>
+ <li>Edit the array values</li>
+ <code>
+          $add_user	= array("username" => "admin", // account
+					"password" => "admin", // password
+					"nickname" => "Admin" // Nickname
+					); 
+ </code>
+</ul>
+<h3>5. Finish!!</h3>
+
+
+=======
+
 Demo 網址：http://cooltey.org/cpsub/
 
-目前程式版本：v5.0
+目前程式版本 Current Version：v5.0
 
-作者：Cooltey Feng
+作者 Author：Cooltey Feng
 
 E-mail：coolteygame@gmail.com
 
@@ -59,6 +99,10 @@ Facebook：http://www.facebook.com/cooltey
 
 Twitter：http://twitter.com/cooltey
 
-網站：http://www.cooltey.org
+網站 My Website：http://www.cooltey.org
 
 若有問題，歡迎交流！
+
+Contact me if you have any question!
+
+=======
