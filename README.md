@@ -14,7 +14,8 @@ PHP 公告系統，用 CSV 格式建構出來的小型 PHP 程式。
 
 <h4>安裝方式</h4>
 
-<ul>1. Server 健康檢查
+<h3>1. Server 健康檢查</h3>
+<ul>
   <li>環境：PHP 5.3 以上 (建議)</li>
   <li>PHP.ini 設定：
     <ul>
@@ -24,8 +25,9 @@ PHP 公告系統，用 CSV 格式建構出來的小型 PHP 程式。
     </ul>
   </li>
 </ul>
-<ul>2. 上傳至 FTP 目錄</ul>
-<ul>3. 修改資料夾/目錄權限，改成 777 
+<h3>2. 上傳至 FTP 目錄</h3>
+<h3>3. 修改資料夾/目錄權限，改成 777</h3>
+<ul> 
  <li>cpsub/upload/</li>
  <li>cpsub/db/article.txt</li>
  <li>cpsub/db/settings.txt</li>
