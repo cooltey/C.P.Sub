@@ -48,11 +48,17 @@ PHP 公告系統，用 CSV 格式建構出來的小型 PHP 程式。
 =======
 
 Demo 網址：http://cooltey.org/cpsub/
+
 目前程式版本：v5.0
+
 作者：Cooltey Feng
+
 E-mail：coolteygame@gmail.com
+
 Facebook：http://www.facebook.com/cooltey
+
 Twitter：http://twitter.com/cooltey
+
 網站：http://www.cooltey.org
 
 若有問題，歡迎交流！
