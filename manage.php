@@ -64,17 +64,25 @@
 		  <h1><a href="./"><?=$getLib->setFilter($cpsub['title']);?></a> <small><?=$website_current_page;?></small></h1>
 		</div>
 		<nav class="navbar navbar-default" role="navigation">
-		  <div class="navbar-header">
-			<a class="navbar-brand" href="#">控制台</a>
-		  </div>
-		  <div class="collapse navbar-collapse navbar-ex1-collapse">
-			<ul class="nav navbar-nav">
-			  <li <?=$getLib->toggleMenu($p, "article_add");?>><a href="?p=article_add">建立新公告</a></li>
-			  <li <?=$getLib->toggleMenu($p, "article_list");?>><a href="?p=article_list">公告列表</a></li>
-			  <li <?=$getLib->toggleMenu($p, "system_settings");?>><a href="?p=system_settings">系統管理</a></li>
-			  <li <?=$getLib->toggleMenu($p, "about");?>><a href="?p=about">程式資訊</a></li>
-			  <li <?=$getLib->toggleMenu($p, "logout");?>><a href="?p=logout">登出</a></li>
-			</ul>
+		  <div class="container">
+			  <div class="navbar-header">
+			    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				  <span class="sr-only">Toggle navigation</span>
+				  <span class="icon-bar"></span>
+				  <span class="icon-bar"></span>
+				  <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">控制台</a>
+			  </div>
+			  <div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav">
+				  <li <?=$getLib->toggleMenu($p, "article_add");?>><a href="?p=article_add">建立新公告</a></li>
+				  <li <?=$getLib->toggleMenu($p, "article_list");?>><a href="?p=article_list">公告列表</a></li>
+				  <li <?=$getLib->toggleMenu($p, "system_settings");?>><a href="?p=system_settings">系統管理</a></li>
+				  <li <?=$getLib->toggleMenu($p, "about");?>><a href="?p=about">程式資訊</a></li>
+				  <li <?=$getLib->toggleMenu($p, "logout");?>><a href="?p=logout">登出</a></li>
+				</ul>
+			  </div>
 		  </div>
 		</nav>
 		<?php
