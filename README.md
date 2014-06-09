@@ -32,7 +32,8 @@ PHP 公告系統，用 CSV 格式建構出來的小型 PHP 程式。
  <li>cpsub/db/article.txt</li>
  <li>cpsub/db/settings.txt</li>
 </ul>
-<ul>4. 修改帳號密碼
+<h3>4. 修改帳號密碼</h3>
+<ul>
  <li>開啟 cpsub/config/config.php</li>
  <li>修改陣列數值</li>
  <code>
