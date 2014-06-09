@@ -12,7 +12,7 @@
  $getId			= $_GET['id'];
  
  // set add function
- $getResult = $getArticle->editArticle($getData, $getFile);
+ $getResult = $getArticle->editArticle($getId, $getData, $getFile);
  
  if($getResult['status'] == true){	
 	$success_msg_array = $getResult['msg'];
@@ -26,7 +26,7 @@
 	$getArticleData		= $getArticleResult['data'];
 	// get colum values
 	$article_title 		= $getLib->setFilter($getArticleData['title']);
-	$article_author 	= $$getLib->setFilter(getArticleData['author']);
+	$article_author 	= $getLib->setFilter($getArticleData['author']);
 	$article_date 		= $getLib->setFilter($getArticleData['date']);
 	$article_content 	= $getLib->setFilter($getArticleData['content']);
 	$article_files 		= explode(",", $getArticleData['files']);

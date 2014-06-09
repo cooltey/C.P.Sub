@@ -13,7 +13,7 @@ class Template{
 		$this->version = $current_version;
 	}
 	
-	function setHeader($title){
+	function setHeader($website_title){
 		?>
 		    <title><?=$website_title;?></title>
 			<meta charset="utf-8"> 
