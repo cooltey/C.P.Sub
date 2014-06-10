@@ -42,5 +42,5 @@
  // 關於作者
  $config_about_author = "http://www.cooltey.org/cpsub/json/about_json.php";
  
- $config_current_version = "v5.0";
- $config_current_update  = "2014/6/9";
+ $config_current_version = "v5.1";
+ $config_current_update  = "2014/6/10";
