@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/9
+ * Lastest Update: 2014/6/10
  */
  
  // transfer data
@@ -31,6 +31,7 @@
  $system_stripslashes 		= $getLib->setFilter($cpsub['stripslashes']);
  $system_display_num 		= $getLib->setFilter($cpsub['display_num']);
  $system_display_page_num 	= $getLib->setFilter($cpsub['display_page_num']);
+ 
 ?>
 		<?php $getLib->showErrorMsg($error_msg_array);?>
 		<?php $getLib->showSuccessMsg($success_msg_array);?>
@@ -45,6 +46,27 @@
 		  <div class="form-group">
 			<label for="system_filter" class="col-lg-2 control-label">是否過濾 HTML 語法？</label>
 			<div class="col-lg-10">
+			  	<select class="form-control" name="system_filter">
+				  <?php
+					foreach($selector_array AS $oKey => $oVal){
+						
+						if($oKey == $system_filter){
+							$selected = "selected";
+							
+						}else{
+							$selected = "";						
+						}
+					?>						
+						<option value="<?=$oKey;?>" <?=$selected;?>><?=$oVal;?></option>
+					<?php
+					}
+				  ?>
+				</select>
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label for="system_filter" class="col-lg-2 control-label">是否過濾去除反斜線(如果您無法更改伺服器設定時)？</label>
+			<div class="col-lg-10">
 			  	<select class="form-control" name="system_stripslashes">
 				<?php
 					foreach($selector_array AS $oKey => $oVal){
@@ -58,25 +80,6 @@
 					<?php
 					}
 				?>
-				</select>
-			</div>
-		  </div>
-		  <div class="form-group">
-			<label for="system_filter" class="col-lg-2 control-label">是否過濾去除反斜線(如果您無法更改伺服器設定時)？</label>
-			<div class="col-lg-10">
-			  	<select class="form-control" name="system_filter">
-				  <?php
-					foreach($selector_array AS $oKey => $oVal){
-						$selected = "";
-						
-						if($oKey == $system_filter){
-							$selected = "selected";
-						}
-					?>						
-						<option value="<?=$oKey;?>" <?=$selected;?>><?=$oVal;?></option>
-					<?php
-					}
-				  ?>
 				</select>
 			</div>
 		  </div>

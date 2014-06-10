@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/9
+ * Lastest Update: 2014/6/10
  */
  
 class Settings{
@@ -97,9 +97,17 @@ class Settings{
 				 $returnVal['stripslashes'], 
 				 $returnVal['display_num'], 
 				 $returnVal['display_page_num']) = $this->fileContent;
+				 
+			// trim the data
+			$returnVal['title'] 			= trim($returnVal['title']);
+			$returnVal['filter'] 			= trim($returnVal['filter']);
+			$returnVal['stripslashes'] 		= trim($returnVal['stripslashes']);
+			$returnVal['display_num'] 		= trim($returnVal['display_num']);
+			$returnVal['display_page_num'] 	= trim($returnVal['display_page_num']);
 		}catch(Exception $e){
 			
 		}
+
 		return $returnVal;
 	}
 }

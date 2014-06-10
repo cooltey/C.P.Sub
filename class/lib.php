@@ -2,18 +2,18 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/9
+ * Lastest Update: 2014/6/10
  */
  
 class Lib{
 	
 	// 過濾文字設定
-	var $set_filter = 0;
+	var $set_filter = "0";
 	// 去除反斜線
-	var $set_stripslashes = 1;
+	var $set_stripslashes = "1";
 	
 	function Lib($get_filter, $get_stripslahes){
-		$this->set_filter = $get_filter;
+		$this->set_filter 		= $get_filter;
 		$this->set_stripslashes = $get_stripslahes;
 	}
 	
@@ -21,11 +21,11 @@ class Lib{
 	function setFilter($get_string){
 		$returnVal = $get_string;
 		
-		if($this->set_filter == 1){
+		if($this->set_filter == "1"){
 			$returnVal = strip_tags($get_string);
 		}
 		
-		if($this->set_stripslashes  == 1){
+		if($this->set_stripslashes  == "1"){
 			$returnVal = stripslashes($returnVal);
 		}
 		
