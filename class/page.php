@@ -49,7 +49,6 @@ class Pager{
                  }else{
                     $new_now = $now;
                     $head_page = $new_now - 1;
-                    $new_url = ereg_replace("page={$now}", "", $org_url);
                  }
                  if(($now-$new_now) > $displayNum)
                  {
@@ -82,88 +81,5 @@ class Pager{
 				  }
 			   echo "</ul>";
 
-		}
-		
-		function getPageLibControler(){
-			 // pages
-             $total 		= ceil($this->totalVar/$this->manyVar);
-			 $now 			= $this->pageVar;
-			 $displayNum 	= $this->displayVar;
-			 $many			= $this->manyVar;
-			 $current_page  = $this->pageNameVar;
-			 echo "<ul class=\"pagination pull-right\">";
-			 
-			 if($now == "" || $now == "1" || $now <= "0"){
-            	 $new_now = 1;
-                 }else{
-                    $new_now = $now;
-                    $head_page = $new_now - 1;
-                    $new_url = ereg_replace("page={$now}", "", $org_url);
-                 }
-                 if(($now-$new_now) > $displayNum)
-                 {
-                    $head = $now - $displayNum;
-                    $last = $total - $displayNum;
-                 }				 
-				  $totalDisplay = false;
-                  for($i=(1+$head); $i<(($total-$last)+1); $i++)
-                  {
-                    if(!(($i - $new_now) > $displayNum || ($new_now - $i) > $displayNum))
-                    {
-                        if($i == $new_now)
-                        {
-                          echo "<li class=\"active\"><span>{$i}<span class=\"sr-only\">(current)</span></span></li>";
-                        }else{
-                           echo "<li><span class=\"ajax_page_btn\" page={$i}>{$i}</span></li>";
-						   if($i == $total || $i == ($total-1)){
-							$totalDisplay = true;
-						   }
-                        }
-                     }
-
-                  }
-			   echo "</ul>";
-
-		}
-		
-		function getPageControlerForFront(){
-			 // pages
-             $total 		= ceil($this->totalVar/$this->manyVar);
-			 $now 			= $this->pageVar;
-			 $displayNum 	= $this->displayVar;
-			 $many			= $this->manyVar;
-			 $current_page  = $this->pageNameVar;
-			 echo "<div class=\"wp-pagenavi\">";
-			 
-			 if($now == "" || $now == "1" || $now <= "0"){
-            	 $new_now = 1;
-                 }else{
-                    $new_now = $now;
-                    $head_page = $new_now - 1;
-                    $new_url = ereg_replace("page={$now}", "", $org_url);
-                 }
-                 if(($now-$new_now) > $displayNum)
-                 {
-                    $head = $now - $displayNum;
-                    $last = $total - $displayNum;
-                 }
-				 
-				  $totalDisplay = false;
-                  for($i=(1+$head); $i<(($total-$last)+1); $i++){
-                    if(!(($i - $new_now) > $displayNum || ($new_now - $i) > $displayNum)){
-                        if($i == $new_now){
-                          echo "<span class=\"current\">{$i}</span>";
-                        }else{
-                           echo "<a href={$current_page}page={$i} class=\"page larger\">{$i}</a>";
-						   if($i == $total || $i == ($total-1)){
-							$totalDisplay = true;
-						   }
-                        }
-                     }
-
-                  }
-			   echo "</div>";
-
-		}
-	
+		}	
 }
