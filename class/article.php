@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/9
+ * Lastest Update: 2014/6/25
  */
  
 class Article{
@@ -436,7 +436,7 @@ class Article{
 										$existData[6] = $columnArray[6];
 										$existData[7] = $columnArray[7];
 										$existData[8] = $columnArray[8];
-										$existData[9] = $columnArray[9];
+										$existData[9] = $existData[9];
 									}
 									
 									array_push($dataArray, $existData);
