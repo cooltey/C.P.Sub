@@ -32,9 +32,14 @@
  // check file status
  $getLib->checkFileStatus($config_default_folder);
  $getLib->checkFileStatus($config_article_file_path);
+ $getLib->checkFileStatus($config_ip_file_path);
  
  // get page val
- $p = $getLib->setFilter($_GET['p']);
+ if(isset($_GET['p'])){
+	$p = $getLib->setFilter($_GET['p']);
+ }else{
+ 	$p = "";
+ }
  
  if(!$getLib->checkVal($p)){
 	$p = "about";

@@ -16,15 +16,16 @@ class Auth{
 	}
 	
 	function setLogin($getData){
+
+		$return_status = false;
+		$msg_array = array();
 	
-		$returnVal = array("status" => false, "msg" => array());
+		$returnVal = array("status" => $return_status, "msg" => $msg_array);
 		
 		try{
-			if($this->getLib->checkVal($getData['send'])){
+			if(isset($getData['send']) && $this->getLib->checkVal($getData['send'])){
 
 				// set get values
-				$msg_array 					= array();
-				$return_status				= false;
 				$cpsub_username 			= $this->getLib->setFilter($getData['cpsub_username']);
 				$cpsub_password		 		= $this->getLib->setFilter($getData['cpsub_password']);
 				
@@ -89,8 +90,13 @@ class Auth{
 	function checkAuth($cookie, $session, $page){
 	    if(!preg_match("/login/", $page)){		
 			if($this->getLib->checkVal($cookie)){
-				$username 	= $this->getLib->setFilter($cookie['cpsub_username']);	
-				$password	= $this->getLib->setFilter($cookie['cpsub_password']);
+				if(isset($cookie['cpsub_username']) && isset($cookie['cpsub_password'])){
+					$username 	= $this->getLib->setFilter($cookie['cpsub_username']);	
+					$password	= $this->getLib->setFilter($cookie['cpsub_password']);
+				}else{
+					$username 	= "";
+					$password 	= "";
+				}
 				
 				if($this->getLib->checkVal($username)){		
 					$login 	  					= "1";				

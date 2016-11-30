@@ -36,50 +36,54 @@ class Pager{
 		}
 		
 		function getPageControler(){
-			 // pages
-             $total 		= ceil($this->totalVar/$this->manyVar);
-			 $now 			= $this->pageVar;
-			 $displayNum 	= $this->displayVar;
-			 $many			= $this->manyVar;
-			 $current_page  = $this->pageNameVar;
-			 echo "<ul class=\"pagination pull-right\">";
+			// pages
+            $total 		= ceil($this->totalVar/$this->manyVar);
+			$now 			= $this->pageVar;
+			$displayNum 	= $this->displayVar;
+			$many			= $this->manyVar;
+			$current_page  = $this->pageNameVar;
+			echo "<ul class=\"pagination pull-right\">";
 			 
-			 if($now == "" || $now == "1" || $now <= "0"){
-            	 $new_now = 1;
-                 }else{
-                    $new_now = $now;
-                    $head_page = $new_now - 1;
-                 }
-                 if(($now-$new_now) > $displayNum)
-                 {
-                    $head = $now - $displayNum;
-                    $last = $total - $displayNum;
-                 }
-				  if($now > 1 && (($total-$last)+1) > $displayNum && $total > $displayNum){
-						echo "<li><a href={$current_page}page=1>最前頁...</a></li>";
-				  }
-				 
-				  $totalDisplay = false;
-                  for($i=(1+$head); $i<(($total-$last)+1); $i++)
-                  {
-                    if(!(($i - $new_now) > $displayNum || ($new_now - $i) > $displayNum))
-                    {
-                        if($i == $new_now)
-                        {
-                          echo "<li class=\"active\"><span>{$i}<span class=\"sr-only\">(current)</span></span></li>";
-                        }else{
-                           echo "<li><a href={$current_page}page={$i}>{$i}</a></li>";
-						   if($i == $total || $i == ($total-1)){
-							$totalDisplay = true;
-						   }
-                        }
-                     }
+			if($now == "" || $now == "1" || $now <= "0"){
+            	$new_now = 1;
+            }else{
+                $new_now = $now;
+                $head_page = $new_now - 1;
+            }
 
-                  }
-				  if($now != $total && $total > $displayNum && $totalDisplay == false){
-						echo "<li><a href={$current_page}page={$total}>...最終頁</a></li>";
-				  }
-			   echo "</ul>";
+            if(($now-$new_now) > $displayNum){
+                $head = $now - $displayNum;
+                $last = $total - $displayNum;
+            }else{
+            	$head = 0;
+            	$last = 0;
+            }
+
+			if($now > 1 && (($total-$last)+1) > $displayNum && $total > $displayNum){
+				echo "<li><a href={$current_page}page=1>最前頁...</a></li>";
+			}
+				 
+			$totalDisplay = false;
+            for($i=(1+$head); $i<(($total-$last)+1); $i++){
+                
+                if(!(($i - $new_now) > $displayNum || ($new_now - $i) > $displayNum)){
+                    if($i == $new_now){
+                        echo "<li class=\"active\"><span>{$i}<span class=\"sr-only\">(current)</span></span></li>";
+                    }else{
+                        echo "<li><a href={$current_page}page={$i}>{$i}</a></li>";
+						if($i == $total || $i == ($total-1)){
+							$totalDisplay = true;
+						}
+                    }
+                }
+
+            }
+			
+			if($now != $total && $total > $displayNum && $totalDisplay == false){
+				echo "<li><a href={$current_page}page={$total}>...最終頁</a></li>";
+			}
+			
+			echo "</ul>";
 
 		}	
 }

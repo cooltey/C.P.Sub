@@ -34,12 +34,14 @@
  // set add function
  $getResult = $getAuth->setLogin($getData);
  
- if($getResult['status'] == true || $_SESSION['login'] == "1"){	
+ if($getResult['status'] == true || (isset($_SESSION['login']) && $_SESSION['login'] == "1")){	
 	$success_msg_array = $getResult['msg'];
+	$error_msg_array   = array();
 	$rPage = "./manage.php";
 	echo $getLib->getRedirect($rPage);
  }else{
 	$error_msg_array   = $getResult['msg'];
+	$success_msg_array   = array();
 	$getAuth->clearAuth();
  }
 

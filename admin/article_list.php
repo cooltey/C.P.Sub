@@ -6,8 +6,14 @@
  */
  
  // set Article
- $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $getLib);
- $page    	= $_GET['page'];
+ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $config_ip_file_path, $getLib);
+ 
+ if(isset($_GET['page'])){
+ 	$page    		= $_GET['page'];
+ }else{
+	$page 		= 0;
+ }
+
  // get article list					
  $getListArray  = $getArticle->getAllList("display", "id", "desc");
  $getListSum    = count($getListArray);
@@ -57,7 +63,7 @@
 							<td><?=$article_date ;?></td>
 							<td><?=$article_author;?></td>
 							<td><a href="?p=article_edit&id=<?=$article_id;?>"><span class="glyphicon glyphicon-pencil"></span></a></td>
-							<td><a href="?p=article_del&id=<?=$article_id;?>"><span class="glyphicon glyphicon-trash"></span></a></td>
+							<td><a href="?p=article_del&id=<?=$article_id;?>" onclick="return confirm('確定要刪除此文章？')" ><span class="glyphicon glyphicon-trash"></span></a></td>
 						</tr>
 				<?php
 						}

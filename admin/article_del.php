@@ -8,7 +8,7 @@
  $getData		= $_POST;
  $getFile 		= $_FILES;
  // set Article
- $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $getLib);
+ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $config_ip_file_path, $getLib);
  $getId			= $_GET['id'];
  
  // set add function

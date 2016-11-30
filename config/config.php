@@ -35,6 +35,9 @@
  
  // 預設檔案路徑
  $config_article_file_path = $config_default_folder. "/article.txt";
+
+ // 預設檔案路徑
+ $config_ip_file_path = $config_default_folder. "/ip.txt";
   
  // 預設上傳資料夾路徑
  $config_upload_folder = "./upload/";
@@ -42,5 +45,5 @@
  // 關於作者
  $config_about_author = "http://www.cooltey.org/cpsub/json/about_json.php";
  
- $config_current_version = "v5.02";
- $config_current_update  = "2014/6/25";
+ $config_current_version = "v5.1";
+ $config_current_update  = "2016/11/30";

@@ -14,6 +14,7 @@
  
  if($getResult['status'] == true){	
 	$success_msg_array = $getResult['msg'];
+ 	$error_msg_array = array();
 	$new_msg = "若設定未更新，請<a href=\"./manage.php?p=system_settings\">按此</a>重新載入";
 	array_push($success_msg_array, $new_msg);
 	
@@ -21,6 +22,7 @@
 	$getSettings 	= new Settings($config_setting_file_path);
 	$cpsub			= $getSettings->getSettings();
  }else{
+ 	$success_msg_array = array();
 	$error_msg_array   = $getResult['msg'];
  }
  

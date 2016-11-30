@@ -24,7 +24,7 @@
  $getTmp 		= new Template($config_current_version);
  $getId			= $_GET['id'];
  // set Article
- $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $getLib);
+ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $config_ip_file_path, $getLib);
  // add view counts
  $getArticle->addViewCounts($getId);
  // get single article

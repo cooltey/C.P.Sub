@@ -54,7 +54,7 @@ class Lib{
 			// 確認權限
 			$get_premission = substr(decoct(fileperms($get_val)), 2);
 		    if($get_premission != "0777"){
-				chmod($get_val, 0777);
+				@chmod($get_val, 0777);
 			}
 			$returnVal = true;
 		}
@@ -142,17 +142,22 @@ class Lib{
 	
 	// general ip getter
 	function getIp(){
-		// get ip
-		if (!empty($_SERVER['HTTP_CLIENT_IP']))
-		{
-			$ip = $_SERVER['HTTP_CLIENT_IP'];
-		}else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		}else{
-			$ip = $_SERVER['REMOTE_ADDR'];
-		}
-		
-		return $ip;
+		$ipaddress = '';
+	    if (getenv('HTTP_CLIENT_IP'))
+	        $ipaddress = getenv('HTTP_CLIENT_IP');
+	    else if(getenv('HTTP_X_FORWARDED_FOR'))
+	        $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+	    else if(getenv('HTTP_X_FORWARDED'))
+	        $ipaddress = getenv('HTTP_X_FORWARDED');
+	    else if(getenv('HTTP_FORWARDED_FOR'))
+	        $ipaddress = getenv('HTTP_FORWARDED_FOR');
+	    else if(getenv('HTTP_FORWARDED'))
+	       $ipaddress = getenv('HTTP_FORWARDED');
+	    else if(getenv('REMOTE_ADDR'))
+	        $ipaddress = getenv('REMOTE_ADDR');
+	    else
+	        $ipaddress = 'UNKNOWN';
+	    return $ipaddress;
 	}
 	
 	// file upload

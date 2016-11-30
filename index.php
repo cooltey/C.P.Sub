@@ -25,17 +25,24 @@
  $getTmp 		= new Template($config_current_version);
  
  // set keyword
- if($getLib->checkVal($getData['keyword'])){
+ if(isset($getData['keyword']) && $getLib->checkVal($getData['keyword'])){
 	$getKeyword 	= $getLib->setFilter($getData['keyword']);
 	$getKeywordLink = "?keyword=".$getKeyword."&";
  }else{
+ 	$getKeyword     = "";
 	$getKeywordLink = "?";
  }
+
  
  // set Article
- $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $getLib);
+ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $config_ip_file_path, $getLib);
  
- $page    	= $_GET['page'];
+ if(isset($getData['page'])){
+ 	$page    	= $getData['page'];
+ }else{
+ 	$page 		= 0;
+ }
+
  // get article list					
  $getListArray  = $getArticle->getAllList("display", "id", "desc", $getKeyword);
  $getListSum    = count($getListArray);

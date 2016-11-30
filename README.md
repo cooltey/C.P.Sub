@@ -47,6 +47,17 @@ PHP 公告系統，用 CSV 格式建構出來的小型 PHP 程式。
 
 =======
 
+<h4>版本更新</h4>
+
+<b>2016-11-30: v5.1</b><br>
+<li>1.加入最後瀏覽時間，以阻擋過度瀏覽而導致文章消失的問題</li>
+<li>2.修改一些小 Bug</li>
+<li>3.加入 IP Checker ，但好像沒什麼用</li>
+
+
+
+=======
+
 This is a PHP bulletin project that made with CSV file system (which is not using SQL as the database)
 
 If you have any question or suggestion about this project, please contact with me by using E-mail, Facebook message, or Twitter.
@@ -87,9 +98,21 @@ If you have any question or suggestion about this project, please contact with m
 
 =======
 
+<h4>Relsease Logs</h4>
+
+<b>2016-11-30: v5.1</b><br>
+<li>1. Added a last-time-viewed date column to prevent the data format loses</li>
+<li>2. Remove some bugs</li>
+<li>2. Added an IP Checker</li>
+
+
+
+=======
+=======
+
 Demo 網址：http://cooltey.org/cpsub/
 
-目前程式版本 Current Version：v5.0
+目前程式版本 Current Version：v5.1
 
 作者 Author：Cooltey Feng
 

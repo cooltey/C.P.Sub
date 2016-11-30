@@ -5,8 +5,7 @@
  * Lastest Update: 2014/6/9
  */
  
- $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $getLib);
- 
+$getArticle 	= new Article($config_upload_folder, $config_article_file_path, $config_ip_file_path, $getLib); 
  
  // transfer data
  $getData = $_POST;
@@ -17,8 +16,10 @@
  
  if($getResult['status'] == true){	
 	$success_msg_array = $getResult['msg'];
+ 	$error_msg_array = array();
 	unset($getData);
  }else{
+ 	$success_msg_array = array();
 	$error_msg_array   = $getResult['msg'];
  }
 
@@ -34,13 +35,13 @@
 		 <div class="form-group">
 			<label for="article_title" class="col-lg-2 control-label">標題</label>
 			<div class="col-lg-10">
-			  	<input type="text" class="form-control" id="article_title" name="article_title" placeholder="標題" value="<?=$getLib->setFilter($getData['article_title']);?>">
+			  	<input type="text" class="form-control" id="article_title" name="article_title" placeholder="標題" value="<?=@$getLib->setFilter($getData['article_title']);?>">
 			</div>
 		  </div>
 		  <div class="form-group">
 			<label for="article_author" class="col-lg-2 control-label">發佈單位</label>
 			<div class="col-lg-10">
-			  	<input type="text" class="form-control" id="article_author" name="article_author" placeholder="發佈單位" value="<?=$getLib->setFilter($getData['article_author']);?>">
+			  	<input type="text" class="form-control" id="article_author" name="article_author" placeholder="發佈單位" value="<?=@$getLib->setFilter($getData['article_author']);?>">
 			</div>
 		  </div>
 		  <div class="form-group">
@@ -48,8 +49,10 @@
 			  <div class="checkbox">
 				<label>
 				  <?php
-					if($getData['article_top'] == "1"){
+					if(isset($getData['article_top']) && $getData['article_top'] == "1"){
 						$checked = "checked";
+					}else{
+						$checked = "";
 					}
 				  ?>
 				  <input type="checkbox" name="article_top" value="1" <?=$checked;?>> 置頂
@@ -73,7 +76,7 @@
 		  <div class="form-group">
 			<label for="article_author" class="col-lg-2 control-label">文章內容</label>
 			<div class="col-lg-10">
-			  	<textarea name="article_content" class="ckeditor"><?=$getLib->setFilter($getData['article_content']);?></textarea>
+			  	<textarea name="article_content" class="ckeditor"><?=@$getLib->setFilter($getData['article_content']);?></textarea>
 			</div>
 		  </div>
 		  <div class="form-group">

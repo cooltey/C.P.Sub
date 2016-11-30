@@ -8,7 +8,7 @@
  $getData		= $_POST;
  $getFile 		= $_FILES;
  // set Article
- $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $getLib);
+ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $config_ip_file_path, $getLib);
  $getId			= $_GET['id'];
  
  // set add function
@@ -16,8 +16,10 @@
  
  if($getResult['status'] == true){	
 	$success_msg_array = $getResult['msg'];
+	$error_msg_array   = array();
  }else{
 	$error_msg_array   = $getResult['msg'];
+	$success_msg_array = array();
  }
  
  // get single article

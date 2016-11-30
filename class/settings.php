@@ -21,15 +21,15 @@ class Settings{
 	
 	function updateSettings($getData, $getLib){
 	
-		$returnVal = array("status" => false, "msg" => array());
+		$msg_array 					= array();
+		$return_status				= false;
+		$returnVal = array("status" => $return_status, "msg" => $msg_array);
 		
 		try{		
 			// check the submit btn has been submitted
-			 if($getLib->checkVal($getData['send'])){
+			 if(isset($getData['send']) && $getLib->checkVal($getData['send'])){
 
 				// set get values
-				$msg_array 					= array();
-				$return_status				= false;
 				$system_title 				= $getLib->setFilter($getData['system_title']);
 				$system_filter 				= $getLib->setFilter($getData['system_filter']);
 				$system_stripslashes 		= $getLib->setFilter($getData['system_stripslashes']);

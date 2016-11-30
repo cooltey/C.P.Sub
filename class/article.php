@@ -8,11 +8,13 @@
 class Article{
 
 	var $filePath;
+	var $checkerPath;
 	var $folderPath;
 	var $getLib;
 	
-	function Article($getFolder, $getPath, $getLib){
+	function Article($getFolder, $getPath, $getChecker, $getLib){
 		$this->filePath 	= $getPath;
+		$this->checkerPath	= $getChecker;
 		$this->folderPath 	= $getFolder;
 		$this->getLib		= $getLib;
 	}
@@ -46,7 +48,8 @@ class Article{
 											 "files_name" 	=> $data[6],
 											 "date" 		=> $data[7],
 											 "ip" 			=> $data[8],
-											 "counts"		=> $data[9]);
+											 "counts"		=> $data[9],
+											 "lastview"		=> $data[10]);
 										
 						}
 					}else{
@@ -59,7 +62,8 @@ class Article{
 										 "files_name" 	=> $data[6],
 										 "date" 		=> $data[7],
 										 "ip" 			=> $data[8],
-										 "counts"		=> $data[9]);
+										 "counts"		=> $data[9],
+										 "lastview"		=> $data[10]);
 					}
 					
 					
@@ -105,7 +109,8 @@ class Article{
 									 $data[6],
 									 $data[7],
 									 $data[8],
-									 $data[9]);										 
+									 $data[9],
+									 $data[10]);										 
 					array_push($returnVal, $setList);
 				}
 			}
@@ -159,44 +164,140 @@ class Article{
 		
 		return $returnVal;	
 	}
+
+	function ipChecker(){
+
+		// get now time
+		$getNowTime = strtotime("now");
+		$getIp      = $this->getLib->getIp();
+
+		// get data
+		$fp = fopen($this->checkerPath, "r");
+		// get content
+		$contents = @fread($fp, filesize($this->checkerPath));
+
+		// split contents
+		$maxData = 50;
+		$limitVisit = 25;
+		$countData = 0;
+		$getLineArray = array();
+
+		$dataArray = explode("|", $contents);
+		foreach($dataArray AS $ipData){
+			$ipArray = explode(",", $ipData);
+			$getTheIp	= $ipArray[0];
+			$getTheDate = @$ipArray[1];
+
+			if($countData < $maxData){
+				$countData++;
+				array_push($getLineArray, $ipData);
+			}else{
+				break;
+			}
+		}
+
+		// check the array
+		$checkArray = array();
+		foreach($getLineArray AS $ipData){
+			$ipArray = explode(",", $ipData);
+			$getTheIp	= $ipArray[0];
+			$getTheDate = @$ipArray[1];
+
+			if($getTheIp == $getIp){
+				array_push($checkArray, $getTheDate);
+				// echo $getTheDate;
+				// echo "<br>";
+			}
+
+		}
+
+		$returnVal = "pass"; 
+
+
+		// check the time range
+		if(count($checkArray) > $limitVisit){
+			$lastIndex = count($checkArray) - 1;
+			$oldestDate = $checkArray[$lastIndex];
+			$newestDate = $checkArray[0];
+
+			$timeDiff = $newestDate - $oldestDate;
+			//echo $timeDiff;
+
+			if($timeDiff > 0 && $timeDiff <= 60){
+				$returnVal = "block";
+			}
+		}
+
+
+		// save ip 
+		$newData = $getIp.",".strtotime(date("Y-m-d H:i:s"));
+
+		// put data into csv
+		$fp = fopen($this->checkerPath, "w");
+
+		$getLine = $newData."|".$contents;
+
+		fwrite($fp, $getLine);
+
+		fclose($fp);
+
+		return $returnVal;
+	}
 	
 	function addViewCounts($getId){
 		$returnVal = array("status" => false);		
 		
-		try{
-			// check id & show contents
-			 if(filter_has_var(INPUT_GET, "id")){
-				if(filter_var($getId, FILTER_VALIDATE_INT)){
-					$getId = intval($this->getLib->setFilter($getId));
-					// start updating					
-					$dataArray = array();
+		// checking IP
+		if($this->ipChecker() == "pass"){
+			try{
+				// check id & show contents
+				 if(filter_has_var(INPUT_GET, "id")){
+					if(filter_var($getId, FILTER_VALIDATE_INT)){
+						$getId = intval($this->getLib->setFilter($getId));
+						// start updating					
+						$dataArray = array();
 
-					// update array
-					$resultArray  = $this->getAllList();
-					
-					// update exist data
-					foreach($resultArray AS $existData){
-						if($existData[0] == $getId){
-							$existData[9] = intval($existData[9]) + 1;
+						// update array
+						$resultArray  = $this->getAllList();
+						
+						// get last update time
+						$nowTime = strtotime(date("Y-m-d H:i:s"));
+						$getLastViewTime = strtotime(date("Y-m-d H:i:s"));
+
+						// update exist data
+						foreach($resultArray AS $existData){
+							if($existData[0] == $getId){
+
+								// get the last view time
+								$getLastViewTime = $existData[10];
+
+								$existData[9] = intval($existData[9]) + 1;
+								$existData[10] = strtotime(date("Y-m-d H:i:s"));
+							}
+							
+							array_push($dataArray, $existData);
 						}
 						
-						array_push($dataArray, $existData);
-					}
-					
-					// put data into csv
-					$fp = fopen($this->filePath, "w");
+						// check time
+						if(($nowTime - $getLastViewTime) > 30){
+							// put data into csv
+							$fp = fopen($this->filePath, "w");
 
-					foreach ($dataArray as $fields) {
-						fputcsv($fp, $fields);
-					}
+							foreach ($dataArray as $fields) {
+								fputcsv($fp, $fields);
+							}
 
-					fclose($fp);			
-					
-					$return_status = true;
+							fclose($fp);
+						}	
+						
+						$return_status = true;
+					}
 				}
-			}
-		}catch(Excepiton $e){
-		}	
+			}catch(Excepiton $e){
+			}	
+		}else{
+			$return_status = false;
+		}
 		
 		$returnVal = array("status" => $return_status);
 		
@@ -205,22 +306,28 @@ class Article{
 	
 	function addNewArticle($getData, $getFile){	
 	
-		$returnVal = array("status" => false, "msg" => array());
+		$msg_array 					= array();
+		$return_status				= false;
+
+		$returnVal = array("status" => $return_status, "msg" => $msg_array);
 		
 		try{		
 		
 			// check the submit btn has been submitted
-			 if($this->getLib->checkVal($getData['send'])){
+			 if(isset($getData['send']) && $this->getLib->checkVal($getData['send'])){
 
 				// set get values
-				$msg_array 					= array();
-				$return_status				= false;
 				$article_title 				= $this->getLib->setFilter($getData['article_title']);
 				$article_author 			= $this->getLib->setFilter($getData['article_author']);
-				$article_top 				= $this->getLib->setFilter($getData['article_top']);
 				$article_content 			= $this->getLib->setFilter($getData['article_content']);
 				$article_date				= $this->getLib->setFilter($getData['article_date']);
 				$article_ip					= $this->getLib->getIp();
+
+				$article_top = "";
+				if(isset($getData['article_top'])){
+					$article_top = $getData['article_top'];
+				}
+
 				
 				// check values
 				if(!filter_has_var(INPUT_POST, "article_title") || !$this->getLib->checkVal($article_title)){
@@ -247,6 +354,8 @@ class Article{
 				
 				$getTotalUploadFiles = count($getFile['article_file']['name']);
 
+				$article_files 		= "";
+				$article_files_name = "";
 				if($this->getLib->checkVal($getFile['article_file']['name'][0])){
 					if($uploadResult['status'] != true){
 						$error_msg = "上傳檔案錯誤，請檢查您的檔案！";
@@ -271,7 +380,8 @@ class Article{
 											$article_files_name,
 											$article_date,
 											$article_ip,
-											0);
+											0,
+											strtotime(date("Y-m-d H:i:s")));
 											
 						// update array
 						$resultArray  = $this->getAllList();
@@ -279,7 +389,7 @@ class Article{
 						// check the last id
 						$getSize   = count($resultArray);
 						
-						$getLastId = $resultArray[$getSize-1][0];
+						$getLastId = @$resultArray[$getSize-1][0];
 						
 						$columnArray[0] = $getLastId + 1;
 						
@@ -319,7 +429,10 @@ class Article{
 	
 	function editArticle($getId, $getData, $getFile){
 	
-		$returnVal = array("status" => false, "msg" => array());
+		$msg_array 					= array();
+		$return_status				= false;
+
+		$returnVal = array("status" => $return_status, "msg" => $msg_array);
 		
 		try{
 			// check id & show contents
@@ -327,22 +440,37 @@ class Article{
 				if(filter_var($getId, FILTER_VALIDATE_INT)){
 					$getId = intval($this->getLib->setFilter($getId));
 					// check the submit btn has been submitted
-					if($this->getLib->checkVal($getData['send'])){
+					if(isset($getData['send']) && $this->getLib->checkVal($getData['send'])){
 				
 						// set get values
-						$msg_array 					= array();
-						$return_status				= false;
 						$article_title 				= $this->getLib->setFilter($getData['article_title']);
 						$article_author 			= $this->getLib->setFilter($getData['article_author']);
-						$article_top 				= $this->getLib->setFilter($getData['article_top']);
 						$article_content 			= $this->getLib->setFilter($getData['article_content']);
 						$article_date				= $this->getLib->setFilter($getData['article_date']);
 						$article_ip					= $this->getLib->getIp();	
 						$article_files 				= array();
 						$article_files_name			= array();
-						$file_del_array				= $getData['article_file_del'];
-						$file_remain				= $getData['article_file_remain'];
-						$file_name_remain			= $getData['article_file_name_remain'];
+
+						$article_top = "";
+						if(isset($getData['article_top'])){
+							$article_top = $getData['article_top'];
+						}
+
+						$file_del_array = "";
+						if(isset($getData['article_file_del'])){
+							$file_del_array = $getData['article_file_del'];
+						}
+
+						$file_remain = "";
+						if(isset($getData['article_file_remain'])){
+							$file_remain = $getData['article_file_remain'];
+						}
+
+						$file_name_remain = "";
+						if(isset($getData['article_file_name_remain'])){
+							$file_name_remain = $getData['article_file_name_remain'];
+						}
+
 						
 						// check values
 						if(!filter_has_var(INPUT_POST, "article_title") || !$this->getLib->checkVal($article_title)){
@@ -417,7 +545,8 @@ class Article{
 													$article_files_name,
 													$article_date,
 													$article_ip,
-													0);
+													0,
+													strtotime(date("Y-m-d H:i:s")));
 													
 								// start updating					
 								$dataArray = array();
@@ -437,6 +566,7 @@ class Article{
 										$existData[7] = $columnArray[7];
 										$existData[8] = $columnArray[8];
 										$existData[9] = $existData[9];
+										$existData[10] = $existData[10];
 									}
 									
 									array_push($dataArray, $existData);
