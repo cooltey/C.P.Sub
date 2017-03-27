@@ -100,6 +100,9 @@ If you have any question or suggestion about this project, please contact with m
 
 <h4>Relsease Logs</h4>
 
+<b>2017-3-27: v5.2</b><br>
+<li>1. XSS issues resolved</li>
+
 <b>2016-11-30: v5.1</b><br>
 <li>1. Added a last-time-viewed date column to prevent the data format loses</li>
 <li>2. Remove some bugs</li>

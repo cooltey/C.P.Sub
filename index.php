@@ -26,7 +26,7 @@
  
  // set keyword
  if(isset($getData['keyword']) && $getLib->checkVal($getData['keyword'])){
-	$getKeyword 	= $getLib->setFilter($getData['keyword']);
+	$getKeyword 	= $getLib->setFilter($getData['keyword'], true);
 	$getKeywordLink = "?keyword=".$getKeyword."&";
  }else{
  	$getKeyword     = "";

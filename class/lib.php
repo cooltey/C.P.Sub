@@ -11,6 +11,8 @@ class Lib{
 	var $set_filter = "0";
 	// 去除反斜線
 	var $set_stripslashes = "1";
+	// 轉換字元
+	var $set_htmlspecialchars = "1";
 	
 	function Lib($get_filter, $get_stripslahes){
 		$this->set_filter 		= $get_filter;
@@ -18,15 +20,24 @@ class Lib{
 	}
 	
 	// 簡易文字過濾
-	function setFilter($get_string){
+	function setFilter($get_string, $adv = false){
 		$returnVal = $get_string;
 		
 		if($this->set_filter == "1"){
-			$returnVal = strip_tags($get_string);
+			$returnVal = strip_tags($returnVal);
 		}
 		
 		if($this->set_stripslashes  == "1"){
 			$returnVal = stripslashes($returnVal);
+		}
+
+
+		if($this->set_htmlspecialchars  == "1"){
+			$returnVal = htmlspecialchars($returnVal);
+		}
+
+		if($adv == true){
+			$returnVal =  htmlentities($returnVal, ENT_QUOTES, 'UTF-8');
 		}
 		
 		return $returnVal;

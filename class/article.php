@@ -26,7 +26,6 @@ class Article{
 		// set two array for display mode
 		$topArray 		= array();
 		$normalArray 	= array();
-		
 		// read csv file
 		if (($handle = fopen($this->filePath, "r")) !== FALSE) {
 			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
@@ -35,10 +34,10 @@ class Article{
 				if($mode == "display"){
 					// set search
 					if($this->getLib->checkVal($keywords)){
-						if(preg_match("/".$keywords."/", $data[1]) || 
-							preg_match("/".$keywords."/", $data[2]) || 
-							preg_match("/".$keywords."/", $data[4]) || 
-							preg_match("/".$keywords."/", $data[6])){ 
+						if(preg_match("/".preg_quote($keywords, '/')."/", $data[1]) || 
+							preg_match("/".preg_quote($keywords, '/')."/", $data[2]) || 
+							preg_match("/".preg_quote($keywords, '/')."/", $data[4]) || 
+							preg_match("/".preg_quote($keywords, '/')."/", $data[6])){ 
 							$setList = array("id" 			=> $data[0],
 											 "title" 		=> $data[1],
 											 "author" 		=> $data[2],
