@@ -12,7 +12,7 @@ class Lib{
 	// 去除反斜線
 	var $set_stripslashes = "1";
 	// 轉換字元
-	var $set_htmlspecialchars = "1";
+	// var $set_htmlspecialchars = "0";
 	
 	function Lib($get_filter, $get_stripslahes){
 		$this->set_filter 		= $get_filter;
@@ -32,11 +32,13 @@ class Lib{
 		}
 
 
-		if($this->set_htmlspecialchars  == "1"){
-			$returnVal = htmlspecialchars($returnVal);
-		}
+		// if($this->set_htmlspecialchars  == "1"){
+		// 	$returnVal = htmlspecialchars($returnVal);
+		// }
 
 		if($adv == true){
+			// xss escape
+			$returnVal = htmlspecialchars($returnVal);
 			$returnVal =  htmlentities($returnVal, ENT_QUOTES, 'UTF-8');
 		}
 		

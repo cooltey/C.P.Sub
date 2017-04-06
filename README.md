@@ -100,6 +100,9 @@ If you have any question or suggestion about this project, please contact with m
 
 <h4>Relsease Logs</h4>
 
+<b>2017-4-6: v5.21</b><br>
+<li>1. Filter Update</li>
+
 <b>2017-3-27: v5.2</b><br>
 <li>1. XSS issues resolved</li>
 
@@ -115,7 +118,7 @@ If you have any question or suggestion about this project, please contact with m
 
 Demo 網址：http://cooltey.org/cpsub/
 
-目前程式版本 Current Version：v5.1
+目前程式版本 Current Version：v5.21
 
 作者 Author：Cooltey Feng
 
