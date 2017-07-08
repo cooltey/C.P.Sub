@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/9
+ * Lastest Update: 2017/7/8
  */
  
  // Global Values
@@ -19,12 +19,13 @@
  // 新增完需利用 array_push 加入陣列
  
  // 範例
+ /*******
  $add_user	= array("username" => "user1", // 帳號
 					"password" => "user1", // 密碼
 					"nickname" => "使用者1" // 管理員
 					); 
  array_push($config_account_data, $add_user);
- 
+ ********/
  
  
  // 預設檔案路徑
