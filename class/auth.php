@@ -54,6 +54,8 @@ class Auth{
 									$_SESSION['cpsub_username'] 	= $aData['username'];
 									$_SESSION['cpsub_password'] 	= $aData['password'];
 									$_SESSION['cpsub_nickname'] 	= $aData['nickname'];
+									// TODO: need improvment by using the CSRF class
+									$_SESSION['csrf_token'] 		= $getData['csrf_token'];
 									
 									$success_msg = "登入成功！";
 									array_push($msg_array, $success_msg);

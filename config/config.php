@@ -5,6 +5,8 @@
  * Lastest Update: 2017/7/8
  */
  
+ session_start();
+
  // Global Values
  // 以陣列形式呈現
  $config_account_data = array();
