@@ -11,6 +11,11 @@ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $co
  $getData = $_POST;
  $getFile = $_FILES;
   
+ // check CSRF
+ if (isset($getData)) {
+	$getCSRF->checkToken($getData);
+ }
+ 
  // set add function
  $getResult = $getArticle->addNewArticle($getData, $getFile);
  
@@ -84,4 +89,5 @@ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $co
 			  <button type="submit" class="btn btn-default" name="send" value="send">發佈</button>
 			</div>
 		  </div>
+		  <?php echo $getCSRF->genTokenField();?>
 		</form>

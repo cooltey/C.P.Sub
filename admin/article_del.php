@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/9
+ * Lastest Update: 2019/02/10
  */
   
  $getData		= $_POST;
@@ -10,6 +10,10 @@
  // set Article
  $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $config_ip_file_path, $getLib);
  $getId			= $_GET['id'];
+
+
+ // check CSRF
+ $getCSRF->checkToken($_GET);
  
  // set add function
  $getResult = $getArticle->delArticle($getId);

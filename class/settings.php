@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/10
+ * Lastest Update: 2019/02/10
  */
  
 class Settings{
@@ -35,6 +35,7 @@ class Settings{
 				$system_stripslashes 		= $getLib->setFilter($getData['system_stripslashes']);
 				$system_display_num 		= $getLib->setFilter($getData['system_display_number']);
 				$system_display_page_num	= $getLib->setFilter($getData['system_display_page_number']);
+				$system_csrf_protection		= $getLib->setFilter($getData['system_csrf_protection']);
 				
 				// check values
 				if(!filter_has_var(INPUT_POST, "system_title") || !$getLib->checkVal($system_title)){
@@ -63,7 +64,8 @@ class Settings{
 						fwrite($fp, $system_filter."\n");
 						fwrite($fp, $system_stripslashes."\n");
 						fwrite($fp, $system_display_num."\n");
-						fwrite($fp, $system_display_page_num);
+						fwrite($fp, $system_display_page_num."\n");
+						fwrite($fp, $system_csrf_protection);
 						fclose($fp);
 								
 						$success_msg = "設定更新成功！";
@@ -96,7 +98,8 @@ class Settings{
 				 $returnVal['filter'], 
 				 $returnVal['stripslashes'], 
 				 $returnVal['display_num'], 
-				 $returnVal['display_page_num']) = $this->fileContent;
+				 $returnVal['display_page_num'], 
+				 $returnVal['csrf_protection']) = $this->fileContent;
 				 
 			// trim the data
 			$returnVal['title'] 			= trim($returnVal['title']);
@@ -104,6 +107,7 @@ class Settings{
 			$returnVal['stripslashes'] 		= trim($returnVal['stripslashes']);
 			$returnVal['display_num'] 		= trim($returnVal['display_num']);
 			$returnVal['display_page_num'] 	= trim($returnVal['display_page_num']);
+			$returnVal['csrf_protection'] 	= trim($returnVal['csrf_protection']);
 		}catch(Exception $e){
 			
 		}

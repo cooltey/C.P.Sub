@@ -21,6 +21,7 @@ class CSRFProtection{
 		
 		$this->getToken = $_SESSION['csrf_token'];
 
+		return $this->getToken;
 	}
 
 	// gen token hidden field
@@ -30,18 +31,6 @@ class CSRFProtection{
 		if(!$this->getToken){
 			$this->genToken();
 		}
-		return "<input type='hidden' name='csrf_token' value='".$this->getToken."'>";
-	}
-
-	// gen token hidden field
-	function genTokenFieldForLogin($getSessionToken){
-		// gen token
-		if($getSessionToken == "" || !$getSessionToken){
-			$this->genToken();
-		}else{
-			$this->getToken = $_SESSION['csrf_token'];
-		}
-
 		return "<input type='hidden' name='csrf_token' value='".$this->getToken."'>";
 	}
 

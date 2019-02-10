@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2017/7/8
+ * Lastest Update: 2019/02/10
  */
  
  session_start();
@@ -48,5 +48,5 @@
  // 關於作者
  $config_about_author = "http://www.cooltey.org/cpsub/json/about_json.php";
  
- $config_current_version = "v5.21";
- $config_current_update  = "2017/4/6";
+ $config_current_version = "v5.3";
+ $config_current_update  = "2019/02/10";
