@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/10
+ * Lastest Update: 2019/02/10
  */
  
  // transfer data
@@ -33,6 +33,7 @@
  $system_stripslashes 		= $getLib->setFilter($cpsub['stripslashes']);
  $system_display_num 		= $getLib->setFilter($cpsub['display_num']);
  $system_display_page_num 	= $getLib->setFilter($cpsub['display_page_num']);
+ $system_csrf_protection	= $getLib->setFilter($cpsub['csrf_protection']);
  
 ?>
 		<?php $getLib->showErrorMsg($error_msg_array);?>
@@ -95,6 +96,27 @@
 			<label for="system_display_page_number" class="col-lg-2 control-label">頁數顯示數量</label>
 			<div class="col-lg-10">
 			  	<input type="text" class="form-control" id="system_display_page_number" name="system_display_page_number" placeholder="請輸入數字" value="<?=$system_display_page_num;?>">
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label for="system_csrf_protection" class="col-lg-2 control-label">是否開啟<a href="https://zh.wikipedia.org/wiki/跨站请求伪造" target="_blank">跨站請求偽造</a>保護？</label>
+			<div class="col-lg-10">
+			  	<select class="form-control" name="system_csrf_protection">
+				  <?php
+					foreach($selector_array AS $oKey => $oVal){
+						
+						if($oKey == $system_csrf_protection){
+							$selected = "selected";
+							
+						}else{
+							$selected = "";						
+						}
+					?>						
+						<option value="<?=$oKey;?>" <?=$selected;?>><?=$oVal;?></option>
+					<?php
+					}
+				  ?>
+				</select>
 			</div>
 		  </div>
 		  <div class="form-group">

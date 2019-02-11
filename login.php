@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2013/10/15
+ * Lastest Update: 2019/02/09
  */
  
  // include configuration file
@@ -15,8 +15,8 @@
  include_once("class/auth.php");
  // include template file
  include_once("class/template.php");
- 
- session_start();
+ // include csrf protection file
+ include_once("class/csrf_protection.php");
  
  $getData		= $_POST;
  $getSettings 	= new Settings($config_setting_file_path);
@@ -24,6 +24,7 @@
  $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']); 
  $getAuth 		= new Auth($config_account_data, $getLib);
  $getTmp 		= new Template($config_current_version);
+ $getCSRF		= new CSRFProtection($getLib);
  
  // current page
  $website_current_page = "登入"; 
@@ -35,6 +36,9 @@
  $getResult = $getAuth->setLogin($getData);
  
  if($getResult['status'] == true || (isset($_SESSION['login']) && $_SESSION['login'] == "1")){	
+	// check CSRF
+	$getCSRF->checkToken($getData);
+
 	$success_msg_array = $getResult['msg'];
 	$error_msg_array   = array();
 	$rPage = "./manage.php";
@@ -83,6 +87,7 @@
 					  <button type="submit" class="btn btn-default" name="send" value="send">登入</button>
 					</div>
 				  </div>
+				  <?php echo $getCSRF->genTokenField();?>
 				</form>
 			</div>
 		</div>

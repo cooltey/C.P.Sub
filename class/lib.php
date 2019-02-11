@@ -18,6 +18,16 @@ class Lib{
 		$this->set_filter 		= $get_filter;
 		$this->set_stripslashes = $get_stripslahes;
 	}
+
+	// gen random string
+	function generateRandomString($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, strlen($characters) - 1)];
+		}
+		return $randomString;
+	}
 	
 	// 簡易文字過濾
 	function setFilter($get_string, $adv = false){

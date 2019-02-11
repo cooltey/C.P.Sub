@@ -19,16 +19,16 @@
  include_once("class/auth.php");
  // include template file
  include_once("class/template.php");
- 
- session_start();
+ // include csrf protection file
+ include_once("class/csrf_protection.php");
  
  $getSettings 	= new Settings($config_setting_file_path);
  $cpsub			= $getSettings->getSettings();
  $getLib 		= new Lib($cpsub['filter'], $cpsub['stripslashes']);
  $getAuth 		= new Auth($config_account_data, $getLib);
  $getTmp 		= new Template($config_current_version);
- 
- 
+ $getCSRF		= new CSRFProtection($getLib);
+
  // check file status
  $getLib->checkFileStatus($config_default_folder);
  $getLib->checkFileStatus($config_article_file_path);

@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/9
+ * Lastest Update: 2019/02/10
  */
  
  // set Article
@@ -25,7 +25,7 @@
  $getPage 		= new Pager($page, $many, $display, $total, $pagename);
  $pageStart  	= intval($getPage->startVar);
  $pageMany  	= intval($getPage->manyVar);
- 
+ $csrfToken     = $getCSRF->genToken();
 ?>
 		<div class="panel panel-default">
 			<table class="table table-hover">
@@ -63,7 +63,7 @@
 							<td><?=$article_date ;?></td>
 							<td><?=$article_author;?></td>
 							<td><a href="?p=article_edit&id=<?=$article_id;?>"><span class="glyphicon glyphicon-pencil"></span></a></td>
-							<td><a href="?p=article_del&id=<?=$article_id;?>" onclick="return confirm('確定要刪除此文章？')" ><span class="glyphicon glyphicon-trash"></span></a></td>
+							<td><a href="?p=article_del&id=<?=$article_id;?>&csrf_token=<?=$csrfToken;?>" onclick="return confirm('確定要刪除此文章？')" ><span class="glyphicon glyphicon-trash"></span></a></td>
 						</tr>
 				<?php
 						}
