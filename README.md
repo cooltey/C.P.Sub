@@ -1,3 +1,4 @@
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DJP82TECKDSFL)
 C.P.Sub 公告系統
 =======
 <h4>前言</h4>
