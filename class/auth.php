@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/9
+ * Lastest Update: 2020/12/19
  */
  
 class Auth{
@@ -10,7 +10,7 @@ class Auth{
 	var $accountData;
 	var $getLib;
 	
-	function Auth($account_data, $getLib){
+	function __construct($account_data, $getLib){
 		$this->accountData 	= $account_data;
 		$this->getLib 		= $getLib;
 	}

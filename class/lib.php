@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/10
+ * Lastest Update: 2020/12/19
  */
  
 class Lib{
@@ -14,7 +14,7 @@ class Lib{
 	// 轉換字元
 	// var $set_htmlspecialchars = "0";
 	
-	function Lib($get_filter, $get_stripslahes){
+	function __construct($get_filter, $get_stripslahes){
 		$this->set_filter 		= $get_filter;
 		$this->set_stripslashes = $get_stripslahes;
 	}

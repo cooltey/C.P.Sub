@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2019/02/10
+ * Lastest Update: 2020/12/19
  */
  
 class Settings{
@@ -10,7 +10,7 @@ class Settings{
 	var $filePath;
 	var $fileContent;
 	
-	function Settings($getPath){
+	function __construct($getPath){
 		$this->filePath = $getPath;
 	}
 	

@@ -2,14 +2,14 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/9
+ * Lastest Update: 2020/12/19
  */
  
 class Template{
 	
 	var $version;
 	
-	function Template($current_version){
+	function __construct($current_version){
 		$this->version = $current_version;
 	}
 	

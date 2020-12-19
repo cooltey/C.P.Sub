@@ -1,10 +1,8 @@
 <?php
  /**
- *  Project: Egg to Go
- *  Last Modified Date: 2014/6/10
- *  Developer: Cooltey Feng
- *  File: class/lib.php
- *  Description: Library for control basic function
+ * Model: C.P.Sub 公告系統
+ * Author: Cooltey Feng
+ * Lastest Update: 2020/12/19
  */
  
 class Pager{
@@ -15,7 +13,7 @@ class Pager{
 		var $pageNameVar;
 		var $totalVar;
 		
-		function Pager($page, $many, $display, $total, $pagename){
+		function __construct($page, $many, $display, $total, $pagename){
 			$page 		= strip_tags(intval($page));
 			$many 		= strip_tags(intval($many));
 			$display 	= strip_tags(intval($display));

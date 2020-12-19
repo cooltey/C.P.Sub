@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2014/6/25
+ * Lastest Update: 2020/12/19
  */
  
 class Article{
@@ -12,7 +12,7 @@ class Article{
 	var $folderPath;
 	var $getLib;
 	
-	function Article($getFolder, $getPath, $getChecker, $getLib){
+	function __construct($getFolder, $getPath, $getChecker, $getLib){
 		$this->filePath 	= $getPath;
 		$this->checkerPath	= $getChecker;
 		$this->folderPath 	= $getFolder;
