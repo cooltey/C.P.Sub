@@ -99,6 +99,9 @@ If you have any question or suggestion about this project, please contact with m
 
 <h4>Relsease Logs</h4>
 
+<b>2020-12-19: v5.35</b><br>
+<li>1. Update class structure to prevent deprecated warnings.</li>
+
 <b>2019-2-10: v5.3</b><br>
 <li>1. Added CSRF protection</li>
 
