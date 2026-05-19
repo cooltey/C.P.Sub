@@ -3,11 +3,9 @@
  * Author: Cooltey Feng
  *
  */
- 
- $(function () {
-    $("#add_more_file").click(function(){
+$(function () {
+ 	$("#add_more_file").click(function(){
 		var getForm = $("#article_file").clone();
 		$("#article_file").after(getForm);
 	});
- })
- 
+})

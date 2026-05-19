@@ -32,10 +32,6 @@ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $co
 		<?php $getLib->showErrorMsg($error_msg_array);?>
 		<?php $getLib->showSuccessMsg($success_msg_array);?>
 		
-		<!--CK Editor -->
-		<script src="js/ckeditor/ckeditor.js"></script>
-	    <script src="js/ckeditor/adapters/jquery.js"></script>
-		<!--CK Editor -->
 		<form class="form-horizontal" role="form" action="manage.php?p=article_add" method="post" enctype="multipart/form-data">
 		 <div class="form-group">
 			<label for="article_title" class="col-lg-2 control-label">標題</label>
@@ -81,7 +77,7 @@ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $co
 		  <div class="form-group">
 			<label for="article_author" class="col-lg-2 control-label">文章內容</label>
 			<div class="col-lg-10">
-			  	<textarea name="article_content" class="ckeditor"><?=@$getLib->setFilter($getData['article_content']);?></textarea>
+			  	<textarea name="article_content" id="my-editor" class="form-control"><?=@$getLib->setFilter($getData['article_content']);?></textarea>
 			</div>
 		  </div>
 		  <div class="form-group">
@@ -91,3 +87,28 @@ $getArticle 	= new Article($config_upload_folder, $config_article_file_path, $co
 		  </div>
 		  <?php echo $getCSRF->genTokenField();?>
 		</form>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js"></script>
+
+		<script>
+		$(document).ready(function() {
+		    $('#my-editor').trumbowyg({
+		        btns: [
+		            ['viewHTML'],
+		            ['formatting'],
+		            ['strong', 'em', 'del'],
+		            ['superscript', 'subscript'],
+		            ['link'],
+		            ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+		            ['unorderedList', 'orderedList'],
+		            ['horizontalRule'],
+		            ['removeformat'],
+		            ['fullscreen']
+		        ],
+		        autogrow: true,
+		        semantic: true
+		    });
+		});
+		</script>
