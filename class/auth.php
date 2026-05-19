@@ -63,11 +63,11 @@ class Auth{
 									// set status
 									$return_status = true;
 								}else{
-									$error_msg = "密碼錯誤";
+									$error_msg = "帳號或密碼錯誤";
 									array_push($msg_array, $error_msg);								
 								}
 							}else{							
-								$error_msg = "查無帳號";
+								$error_msg = "帳號或密碼錯誤";
 								array_push($msg_array, $error_msg);
 							}
 						}

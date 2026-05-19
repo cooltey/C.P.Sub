@@ -50,8 +50,8 @@ PHP 公告系統，用 CSV 格式建構出來的小型 PHP 程式。
 
 <h4>版本更新</h4>
 
-<b>2019-02-10: v5.3</b><br>
-<li>1.修正 CSRF 問題並新增開關 CSRF 防護的功能</li>
+<b>2026-05-19: v5.4</b><br>
+<li>修正帳號枚舉</li>
 
 
 
@@ -99,6 +99,9 @@ If you have any question or suggestion about this project, please contact with m
 
 <h4>Relsease Logs</h4>
 
+<b>2026-5-19: v5.35</b><br>
+<li>1. Update username/password prompt.</li>
+
 <b>2020-12-19: v5.35</b><br>
 <li>1. Update class structure to prevent deprecated warnings.</li>
 
@@ -123,7 +126,7 @@ If you have any question or suggestion about this project, please contact with m
 
 Demo 網址：http://cooltey.org/cpsub/
 
-目前程式版本 Current Version：v5.3
+目前程式版本 Current Version：v5.4
 
 作者 Author：Cooltey Feng
 
