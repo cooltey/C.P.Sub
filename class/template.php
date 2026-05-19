@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2020/12/19
+ * Lastest Update: 2026/05/19
  */
  
 class Template{
@@ -31,7 +31,7 @@ class Template{
 	function setFooter(){
 		?>
 			<div class="footer">
-				C.P.Sub 公告系統 <?=$this->version;?> Powered by <a href="http://www.cooltey.org" target="_blank">Cooltey</a>
+				C.P.Sub 公告系統 <?=$this->version;?> Powered by <a href="https://www.cooltey.org" target="_blank">Cooltey</a>
 			</div>
 		<?php
 	}

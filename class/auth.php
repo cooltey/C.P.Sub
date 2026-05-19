@@ -2,7 +2,7 @@
 /**
  * Model: C.P.Sub 公告系統
  * Author: Cooltey Feng
- * Lastest Update: 2020/12/19
+ * Lastest Update: 2026/05/19
  */
  
 class Auth{
